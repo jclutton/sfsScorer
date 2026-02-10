@@ -10,11 +10,12 @@
 Source:
 [`DESCRIPTION`](https://github.com/jclutton/sfsScorer/blob/master/DESCRIPTION)
 
-Clutton J (2026). *sfsScorer: What the Package Does (Title Case)*. R
-package version 0.1.0, <https://github.com/jclutton/sfsScorer>.
+Clutton J (2026). *sfsScorer: Scores child psychometric questionnaires
+using norms from the Spit for Science study*. R package version 0.1.0,
+<https://github.com/jclutton/sfsScorer>.
 
     @Manual{,
-      title = {sfsScorer: What the Package Does (Title Case)},
+      title = {sfsScorer: Scores child psychometric questionnaires using norms from the Spit for Science study},
       author = {Jonathan Clutton},
       year = {2026},
       note = {R package version 0.1.0},
