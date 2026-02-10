@@ -12,5 +12,5 @@ hello()
 
 ``` r
 hello()
-#> [1] "Hello, world!"
+#> Error in hello(): could not find function "hello"
 ```
