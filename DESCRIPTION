@@ -1,0 +1,15 @@
+Package: sfsScorer
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Authors@R: person(
+    "Jonathan", "Clutton",
+    role = c("aut", "cre"),
+    email = "jonathan.clutton@sickkids.ca",
+    comment = c(ORCID = "0000-0002-3593-4271")
+  )
+Description: More about what it does (maybe more than one line).
+    Continuation lines should be indented.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
