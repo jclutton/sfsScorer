@@ -4,15 +4,16 @@
 \alias{clean_file}
 \title{Clean File}
 \usage{
-clean_file(file_path = NULL)
+clean_file(file_path = NULL, test = NULL)
 }
 \arguments{
 \item{file_path}{Should be a path on your computer to the SWAN scores}
+
+\item{test}{Which questionnaire are we running}
 }
 \value{
 A clean data frame ready for t-scores
 }
 \description{
-This function checks that the uploaded SWAN score file does not have any issues with the SWAN
-values or the gender and age coding
+This function runs checks to be sure that the file and non-test specific data are formatted correctly
 }

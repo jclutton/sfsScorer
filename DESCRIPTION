@@ -8,7 +8,7 @@ Authors@R: person(
     email = "jonathan.clutton@sickkids.ca",
     comment = c(ORCID = "0000-0002-3593-4271")
   )
-Description: Spit for Science (SFS) was a cross-sectional mental health study performed by Dr. Crosbie and Dr. Schachar, in which over 40,000 child and youth participants contributed genetic and questionnaire data. SFS is one of the largest studies to examine child and youth mental health, and as such, it has been used to validate multiple psychometric questionnaires. This package scores and produces t-scoresfor the SFS questionnaires, i.e. the Strengths and Weaknesses of ADHD Symptoms and Normal Behavior Rating Scale (SWAN), the Test of Oral Communication Skills (TOCS), etc. 
+Description: Spit for Science (SFS) was a cross-sectional mental health study performed by Dr. Crosbie and Dr. Schachar, in which over 40,000 child and youth participants contributed genetic and questionnaire data. SFS is one of the largest studies to examine child and youth mental health, and as such, it has been used to validate multiple psychometric questionnaires. This package scores and produces t-scoresfor the SFS questionnaires, i.e. the Strengths and Weaknesses of ADHD Symptoms and Normal Behavior Rating Scale (SWAN), the Toronto Obsessive-Compulsive Scale (TOCS), etc. 
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -23,5 +23,6 @@ Imports:
     here,
     lubridate,
     rio,
+    rlang,
     stringr,
     tidyr

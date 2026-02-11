@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/jclutton/sfsScorer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jclutton/sfsScorer/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/jclutton/sfsScorer/graph/badge.svg)](https://app.codecov.io/gh/jclutton/sfsScorer)
 <!-- badges: end -->
 
 sfsScorer is in development.
