@@ -27,7 +27,7 @@ get_swan_tscores(file = NULL, output_folder = here::here())
   2.  Specify a pathway - This will output a csv file to the specified
       pathway
 
-  3.  Set to \`NULL\` - This will not output a csv file
+  3.  Set to `NULL` - This will not output a csv file
 
 ## Value
 
