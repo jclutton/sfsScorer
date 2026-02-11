@@ -7,12 +7,12 @@
 build_summary_swan(df = NULL)
 }
 \arguments{
-\item{df}{should be a data.frame from [clean_file()]}
+\item{df}{should be a data.frame from \code{\link[=clean_file]{clean_file()}}}
 }
 \value{
 A data frame with all of the totals columns
 }
 \description{
-Use the dataframe from [clean_file()] and the [mkpro()] function to reverse scores, then
+Use the dataframe from \code{\link[=clean_file]{clean_file()}} and the \code{\link[=mkpro]{mkpro()}} function to reverse scores, then
 calculate totals, missingness, and pro-rated totals for the total test and subdomains
 }

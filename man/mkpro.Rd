@@ -16,7 +16,7 @@ mkpro(
 \arguments{
 \item{maxmiss}{maximum number of missing values before can be considered invalid}
 
-\item{dat}{should be a data.frame from [clean_file()]}
+\item{dat}{should be a data.frame from \code{\link[=clean_file]{clean_file()}}}
 
 \item{a}{First question of subset}
 

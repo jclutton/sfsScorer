@@ -13,7 +13,7 @@ get_swan_tscores(file = NULL, output_folder = here::here())
 \enumerate{
 \item Leave blank - This will output a csv file with the t-scores to your working directory
 \item Specify a pathway - This will output a csv file to the specified pathway
-\item Set to `NULL` - This will not output a csv file
+\item Set to \code{NULL} - This will not output a csv file
 }}
 }
 \value{
