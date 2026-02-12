@@ -10,16 +10,47 @@
 coverage](https://codecov.io/gh/jclutton/sfsScorer/graph/badge.svg)](https://app.codecov.io/gh/jclutton/sfsScorer)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 <!-- badges: end -->
 
-sfsScorer is in development.
+Scoring tools for a suite of commonly used child and youth psychiatric
+questionnaires.
+
+## Spit for Science
+
+<img src="Spit-for-Science-Infographic-2.jpg" style="width:8cm"
+data-fig-align="center" />
+
+Spit for Science (SFS) was a large population-based study examining
+mental health in 40,000 children and youth. The study is one of the
+largest to have psychiatric trait and DNA data on a diverse group of
+children and youth. As such, it has been used to develop norms for the
+psychiatric questionnaires used in the study.
+
+This package allows researchers to automatically score their psychiatric
+questionnaires using the SFS norms.
 
 ## Installation
 
-You can install the development version of sfsScorer from
-[GitHub](https://github.com/) with:
+The sfsScorer is still in development. You can install the development
+version of sfsScorer from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
+# Install with pak
+install.packages("pak")
 pak::pak("jclutton/sfsScorer")
+
+#OR 
+
+# Install with devtools
+# If the devtools package isn't installed already, do so first. 
+install.packages("devtools")
+devtools::install_github("jclutton/SwanScorer")
 ```
+
+## Scoring Tools
+
+- The Strengths and Weaknesses of ADHD Symptoms and Normal Behavior
+  Rating Scale (SWAN)
+
+- Toronto Obsessive-Compulsive Scale 2 (TOCS-2)
