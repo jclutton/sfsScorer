@@ -50,6 +50,8 @@ devtools::install_github("jclutton/SwanScorer")
 
 ## Scoring Tools
 
--   The Strengths and Weaknesses of ADHD Symptoms and Normal Behavior Rating Scale (SWAN)
+Click on the questionnaire link for instructions.
+
+-   [The Strengths and Weaknesses of ADHD Symptoms and Normal Behavior Rating Scale (SWAN)](https://jclutton.github.io/sfsScorer/articles/Score%20a%20SWAN%20Questionnaire.html)
 
 -   Toronto Obsessive-Compulsive Scale 2 (TOCS-2)
