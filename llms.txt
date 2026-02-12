@@ -67,3 +67,9 @@ devtools::install_github("jclutton/SwanScorer")
 - [`run_model_tocs()`](https://jclutton.github.io/sfsScorer/reference/run_model_tocs.md)
   : Runs the model that adjusts for time and create t-scores
 
+# Articles
+
+### All vignettes
+
+- [Score a SWAN
+  Questionnaire](https://jclutton.github.io/sfsScorer/articles/Score%20a%20SWAN%20Questionnaire.md):
