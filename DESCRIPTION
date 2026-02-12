@@ -29,3 +29,4 @@ Imports:
     rlang,
     stringr,
     tidyr
+Config/Needs/website: rmarkdown
