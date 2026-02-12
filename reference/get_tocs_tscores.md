@@ -4,10 +4,12 @@ get_tocs_tscores() returns gendered and non-gendered t-scores for the
 [Toronto Obsessive-Compulsive Scale (TOCS)
 assessment](https://pubmed.ncbi.nlm.nih.gov/27015722/)
 
+**\[experimental\]**
+
 ## Usage
 
 ``` r
-get_tocs_tscores(file = NULL, output_folder = here::here())
+get_tocs_tscores(file = NULL, output_folder = here::here(), max_missing = 0)
 ```
 
 ## Arguments
@@ -28,6 +30,14 @@ get_tocs_tscores(file = NULL, output_folder = here::here())
       pathway
 
   3.  Set to `NULL` - This will not output a csv file
+
+- max_missing:
+
+  By default, 0 items are allowed to be missing on the TOCS. Any
+  questionnaire with 1 or more missing, will not be scored. If you'd
+  like to adjust this number, change the max_missing value. This will
+  use a prorated score to generate t-scores. Please be aware that
+  missingness can induce issues when analyzing.
 
 ## Value
 
