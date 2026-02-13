@@ -56,4 +56,4 @@ Click on the questionnaire link for instructions.
 
 -   [The Strengths and Weaknesses of ADHD Symptoms and Normal Behavior Rating Scale (SWAN)](https://Schachar-Crosbie-Lab.github.io/sfsScorer/articles/Score%20a%20SWAN%20Questionnaire.html)
 
--   Toronto Obsessive-Compulsive Scale 2 (TOCS-2)
+-   [Toronto Obsessive-Compulsive Scale 2 (TOCS-2)](https://Schachar-Crosbie-Lab.github.io/sfsScorer/articles/Score%20a%20TOCS-2%20Questionnaire.html)

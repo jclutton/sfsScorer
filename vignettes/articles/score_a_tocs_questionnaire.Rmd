@@ -1,5 +1,5 @@
 ---
-title: "Score a TOCS Questionnaire"
+title: "Score a TOCS-2 Questionnaire"
 ---
 
 ```{r, include = FALSE}
@@ -24,6 +24,7 @@ library(sfsScorer)
 The code below shows how to score a TOCS-2 questionnaire using the `score_tocs2()` function.
 
 ```{r}
+
 # This is used to keep random data consistent
 set.seed(1)
 
@@ -39,8 +40,8 @@ tocs2_sample <- as.data.frame(matrix(round(runif(n=pt_num*24, min=-3, max=3), 0)
 random_data <- data.frame(age = sample(5:18, size = pt_num), # age must be between 5 and 18 
                           gender = sample(1:2, size = pt_num, replace = TRUE)) |>  # gender where 1 = boy and 2 = girl. 
                           #Both gendered and non-gendered t-scores are generated. If a participant is gender-diverse, use the non-gendered t-scores.
-  mutate(p_respondent = 1) |>  # p_respondent stands for parent respondent. 1 for yes, 0 for no
-  bind_cols(tocs2_sample)
+  dplyr::mutate(p_respondent = 1) |>  # p_respondent stands for parent respondent. 1 for yes, 0 for no
+  dplyr::bind_cols(tocs2_sample)
 
 # Here's how we expect the data to be formatted
 head(random_data, 1)
