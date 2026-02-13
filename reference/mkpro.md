@@ -24,7 +24,7 @@ mkpro(
 - dat:
 
   should be a data.frame from
-  [`clean_file()`](https://jclutton.github.io/sfsScorer/reference/clean_file.md)
+  [`clean_file()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/clean_file.md)
 
 - a:
 

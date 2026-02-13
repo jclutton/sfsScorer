@@ -14,7 +14,7 @@ an easy way to automatically score your SWAN tests.
 ## Notes about the data
 
 - The
-  [`get_swan_tscores()`](https://jclutton.github.io/sfsScorer/reference/get_swan_tscores.md)
+  [`get_swan_tscores()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/get_swan_tscores.md)
   function will ask you to upload a spreadsheet with your SWAN data. If
   you have any additional columns beyond the necessary columns described
   below, i.e. an identifier, those columns will remain untouched in the
@@ -66,7 +66,7 @@ csv file with the t-scores will be saved to your working directory
 
 If you receive an error, please correct the issue in your file, save
 your file, then run the
-[`get_swan_tscores()`](https://jclutton.github.io/sfsScorer/reference/get_swan_tscores.md)
+[`get_swan_tscores()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/get_swan_tscores.md)
 function again.
 
 ``` r
