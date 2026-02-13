@@ -12,12 +12,12 @@ Source:
 
 Clutton J (2026). *sfsScorer: Scores child psychometric questionnaires
 using norms from the Spit for Science study*. R package version 0.1.0,
-<https://github.com/jclutton/sfsScorer>.
+<https://github.com/Schachar-Crosbie-Lab/sfsScorer>.
 
     @Manual{,
       title = {sfsScorer: Scores child psychometric questionnaires using norms from the Spit for Science study},
       author = {Jonathan Clutton},
       year = {2026},
       note = {R package version 0.1.0},
-      url = {https://github.com/jclutton/sfsScorer},
+      url = {https://github.com/Schachar-Crosbie-Lab/sfsScorer},
     }
