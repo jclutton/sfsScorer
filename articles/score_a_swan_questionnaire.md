@@ -1,17 +1,65 @@
 # Score a SWAN Questionnaire
 
-    #> sfsScorer has been loaded
-
 The Strengths and Weaknesses of ADHD Symptoms and Normal Behavior Rating
 Scale (SWAN) is a validated instrument for measuring
 attention-deficit/hyperactivity disorder (ADHD) traits ([Burton et al.,
 2018](https://doi.org/10.1101/248484)). The sfsScorer package provides
 an easy way to automatically score your SWAN tests.
 
+## Quick Start
+
+The code below shows how to score a SWAN questionnaire using the
+[`score_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/score_swan.md)
+function.
+
+``` r
+library(sfsScorer)
+#> sfsScorer has been loaded
+
+#' Here's how we expect the data to be formatted
+#' age (5-18)
+#' gender (1 = boy, 2 = girl)
+#'  p_respondent (1 = parent responded, 0 = Nonparent respondent)
+#'  All swan questions 1-18 as swan1...swan24
+head(random_data, 1)
+#>   age gender p_respondent swan1 swan2 swan3 swan4 swan5 swan6 swan7 swan8 swan9
+#> 1  13      1            1    -1     2    -2     0     3    -1     0     1     2
+#>   swan10 swan11 swan12 swan13 swan14 swan15 swan16 swan17 swan18
+#> 1      2      0     -2      2     -1     -1      2      0     -2
+
+
+# Score from a data frame
+# Read below for more options when scoring
+scores <- score_swan(df = random_data)
+#> ✔ The model scored 5 observations.
+#> # A tibble: 4 × 6
+#> # Groups:   gender, youth [4]
+#>   gender youth p_respondent     n  mean     sd
+#>    <int> <dbl>        <dbl> <int> <dbl>  <dbl>
+#> 1      1     0            1     1  52.1 NA    
+#> 2      1     1            1     1  50.8 NA    
+#> 3      2     0            1     2  55.2  0.503
+#> 4      2     1            1     1  58.8 NA
+
+# OR
+# Score from a a csv or xlsx file
+csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
+scores_csv <- score_swan(file = csv)
+#> ✔ The model scored 5 observations.
+#> # A tibble: 4 × 6
+#> # Groups:   gender, youth [4]
+#>   gender youth p_respondent     n  mean     sd
+#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
+#> 1      1     1            1     1  50.8 NA    
+#> 2      2     0            1     2  55.5  0.844
+#> 3      2     1            0     1  58.3 NA    
+#> 4      5     0            1     1 NaN   NA
+```
+
 ## Notes about the data
 
 - The
-  [`get_swan_tscores()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/get_swan_tscores.md)
+  [`score_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/score_swan.md)
   function will ask you to upload a spreadsheet with your SWAN data. If
   you have any additional columns beyond the necessary columns described
   below, i.e. an identifier, those columns will remain untouched in the
@@ -63,14 +111,14 @@ csv file with the t-scores will be saved to your working directory
 
 If you receive an error, please correct the issue in your file, save
 your file, then run the
-[`get_swan_tscores()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/get_swan_tscores.md)
+[`score_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/score_swan.md)
 function again.
 
 ``` r
 library(sfsScorer)
 
-# The get_swan_tscores checks that your data are formatted correctly and generates the t-scores
-swan_tscores <- get_swan_tscores()
+# The score_swan checks that your data are formatted correctly and generates the t-scores
+swan_tscores <- score_swan()
 ```
 
 ### Additional options
@@ -87,13 +135,13 @@ You have the option to specify…
 library(sfsScorer)
 
 # Example of how to specify the input file
-swan_tscores <- get_swan_tscores(file = here("test_scores.csv"))
+swan_tscores <- score_swan(file = here("test_scores.csv"))
 
 # Example of how to specify an output folder
-swan_tscores <- get_swan_tscores(output_folder = file.path("C:","Users",..."yourpath"))
+swan_tscores <- score_swan(output_folder = file.path("C:","Users",..."yourpath"))
 
 # Example of how to not export a csv file
-swan_tscores <- get_swan_tscores(output_folder = NULL)
+swan_tscores <- score_swan(output_folder = NULL)
 ```
 
 ## Understanding the Output

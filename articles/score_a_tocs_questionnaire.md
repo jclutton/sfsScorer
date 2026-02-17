@@ -51,7 +51,7 @@ scores_csv <- score_tocs2(file = tocs_csv)
 #>   gender youth p_respondent     n  mean    sd
 #>    <int> <dbl>        <int> <int> <dbl> <dbl>
 #> 1      1     0            1     2  57.1  2.83
-#> 2      1     1            1     1  54.8 NA   
+#> 2      1     1            0     1  49.9 NA   
 #> 3      2     0            1     1  60.4 NA   
 #> 4      2     1            1     1  56.2 NA
 ```

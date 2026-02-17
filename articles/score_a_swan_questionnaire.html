@@ -64,23 +64,69 @@
 
     
     
-<pre><code><span><span class="co">#&gt; sfsScorer has been loaded</span></span></code></pre>
 <p>The Strengths and Weaknesses of ADHD Symptoms and Normal Behavior
 Rating Scale (SWAN) is a validated instrument for measuring
 attention-deficit/hyperactivity disorder (ADHD) traits (<a href="https://doi.org/10.1101/248484" class="external-link">Burton et al., 2018</a>). The
 sfsScorer package provides an easy way to automatically score your SWAN
 tests.</p>
 <div class="section level2">
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+</h2>
+<p>The code below shows how to score a SWAN questionnaire using the
+<code><a href="../reference/score_swan.html">score_swan()</a></code> function.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Schachar-Crosbie-Lab/sfsScorer" class="external-link">sfsScorer</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; sfsScorer has been loaded</span></span>
+<span></span>
+<span><span class="co">#' Here's how we expect the data to be formatted</span></span>
+<span><span class="co">#' age (5-18)</span></span>
+<span><span class="co">#' gender (1 = boy, 2 = girl)</span></span>
+<span><span class="co">#'  p_respondent (1 = parent responded, 0 = Nonparent respondent)</span></span>
+<span><span class="co">#'  All swan questions 1-18 as swan1...swan24</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">random_data</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   age gender p_respondent swan1 swan2 swan3 swan4 swan5 swan6 swan7 swan8 swan9</span></span>
+<span><span class="co">#&gt; 1  13      1            1    -1     2    -2     0     3    -1     0     1     2</span></span>
+<span><span class="co">#&gt;   swan10 swan11 swan12 swan13 swan14 swan15 swan16 swan17 swan18</span></span>
+<span><span class="co">#&gt; 1      2      0     -2      2     -1     -1      2      0     -2</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Score from a data frame</span></span>
+<span><span class="co"># Read below for more options when scoring</span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_swan.html">score_swan</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">random_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   gender, youth [4]</span></span></span>
+<span><span class="co">#&gt;   gender youth p_respondent     n  mean     sd</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1     0            1     1  52.1 <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      1     1            1     1  50.8 <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      2     0            1     2  55.2  0.503</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      2     1            1     1  58.8 <span style="color: #BB0000;">NA</span></span></span>
+<span></span>
+<span><span class="co"># OR</span></span>
+<span><span class="co"># Score from a a csv or xlsx file</span></span>
+<span><span class="va">csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample_swan.csv"</span>, package <span class="op">=</span> <span class="st">"sfsScorer"</span><span class="op">)</span></span>
+<span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_swan.html">score_swan</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">csv</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   gender, youth [4]</span></span></span>
+<span><span class="co">#&gt;   gender youth p_respondent     n  mean     sd</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1     1            1     1  50.8 <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      2     0            1     2  55.5  0.844</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      2     1            0     1  58.3 <span style="color: #BB0000;">NA</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="notes-about-the-data">Notes about the data<a class="anchor" aria-label="anchor" href="#notes-about-the-data"></a>
 </h2>
 <ul>
-<li><p>The <code><a href="../reference/get_swan_tscores.html">get_swan_tscores()</a></code> function will ask you to
-upload a spreadsheet with your SWAN data. If you have any additional
-columns beyond the necessary columns described below, i.e. an
-identifier, those columns will remain untouched in the output. For
-example, if your input file has two additional columns, an identifier
-and parent’s education, those columns will pass through to the output
-file.</p></li>
+<li><p>The <code><a href="../reference/score_swan.html">score_swan()</a></code> function will ask you to upload a
+spreadsheet with your SWAN data. If you have any additional columns
+beyond the necessary columns described below, i.e. an identifier, those
+columns will remain untouched in the output. For example, if your input
+file has two additional columns, an identifier and parent’s education,
+those columns will pass through to the output file.</p></li>
 <li><p>Scores are automatically reversed before calculating the t-score
 so that a higher score is associated with higher ADHD trait.</p></li>
 <li><p>The test is split into two subdomains. Questions 1-9 measure
@@ -260,13 +306,12 @@ formatted properly. Third, t-scores for the full test as well as the two
 subdomains (inattentive and hyperactive) will be generated. Fourth, a
 csv file with the t-scores will be saved to your working directory</p>
 <p>If you receive an error, please correct the issue in your file, save
-your file, then run the <code><a href="../reference/get_swan_tscores.html">get_swan_tscores()</a></code> function
-again.</p>
+your file, then run the <code><a href="../reference/score_swan.html">score_swan()</a></code> function again.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Schachar-Crosbie-Lab/sfsScorer" class="external-link">sfsScorer</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># The get_swan_tscores checks that your data are formatted correctly and generates the t-scores</span></span>
-<span><span class="va">swan_tscores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_swan_tscores.html">get_swan_tscores</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># The score_swan checks that your data are formatted correctly and generates the t-scores</span></span>
+<span><span class="va">swan_tscores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_swan.html">score_swan</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="additional-options">Additional options<a class="anchor" aria-label="anchor" href="#additional-options"></a>
@@ -280,13 +325,13 @@ again.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(sfsScorer)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Example of how to specify the input file</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>swan_tscores <span class="ot">&lt;-</span> <span class="fu">get_swan_tscores</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"test_scores.csv"</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>swan_tscores <span class="ot">&lt;-</span> <span class="fu">score_swan</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"test_scores.csv"</span>))</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># Example of how to specify an output folder</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>swan_tscores <span class="ot">&lt;-</span> <span class="fu">get_swan_tscores</span>(<span class="at">output_folder =</span> <span class="fu">file.path</span>(<span class="st">"C:"</span>,<span class="st">"Users"</span>,...<span class="st">"yourpath"</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>swan_tscores <span class="ot">&lt;-</span> <span class="fu">score_swan</span>(<span class="at">output_folder =</span> <span class="fu">file.path</span>(<span class="st">"C:"</span>,<span class="st">"Users"</span>,...<span class="st">"yourpath"</span>))</span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># Example of how to not export a csv file</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>swan_tscores <span class="ot">&lt;-</span> <span class="fu">get_swan_tscores</span>(<span class="at">output_folder =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>swan_tscores <span class="ot">&lt;-</span> <span class="fu">score_swan</span>(<span class="at">output_folder =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
