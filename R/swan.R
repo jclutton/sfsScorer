@@ -22,14 +22,12 @@
 #'
 #' `r lifecycle::badge('experimental')`
 #'
-#' @param df If you already have the TOCS-2 data in your R environment, pass the dataframe to this parameter
+#' @param df If you already have the SWAN data in your R environment, pass the dataframe to this parameter
 #' @param file If you prefer scoring a spreadsheet...
 #' \enumerate{
 #'  \item TRUE - This will pop-up a finder to allow you select a file
 #'  \item Specify a pathway
 #'  }
-#' @param max_missing By default, 0 items are allowed to be missing on the TOCS. Any questionnaire with 1 or more missing, will not be scored. If you'd like to adjust this number, change the max_missing value.
-#'  This will use a prorated score to generate t-scores. Please be aware that missingness can induce issues when analyzing.
 #' @param output_folder Output file pathway
 #'  \enumerate{
 #'  \item Leave blank - This will output a csv file with the t-scores to your working directory
@@ -53,8 +51,7 @@
 #'
 #'
 
-score_swan <- function(df = NULL, file = FALSE, output_folder = NULL,
-                       max_missing = 0) {
+score_swan <- function(df = NULL, file = FALSE, output_folder = NULL) {
 
   if(is.null(df) | is.character(df) | is.logical(df)){
 
@@ -85,9 +82,12 @@ score_swan <- function(df = NULL, file = FALSE, output_folder = NULL,
   score <- run_model_swan(summary)
 
   # Print a summary in the console
-  message(paste0("The model scored ",sum(!is.na(score$swan_tot_gender_tscores))," observations. \n \n",
-                 sum(score$swan_ia_miss > 1 | score$swan_hi_miss > 1)," observations were not scored due to excessive missingness. ",
-                 "Only one question can be missing per subdomain."))
+  cli::cli_alert_success(paste0("The model scored ",sum(!is.na(score$swan_tot_tscores))," observations."))
+  if(sum(score$swan_ia_miss > 1 | score$swan_hi_miss > 1) > 0){
+    cli::cli_alert_warning(paste0(sum(score$swan_ia_miss > 1 | score$swan_hi_miss > 1)," observations were not scored due to excessive missingness. ",
+                                  "Only one question can be missing per subdomain."))
+  }
+
   print(
     score |>
       dplyr::group_by(.data$gender, .data$youth, .data$p_respondent) |>

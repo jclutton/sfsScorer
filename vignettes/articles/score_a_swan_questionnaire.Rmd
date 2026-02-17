@@ -39,7 +39,7 @@ random_data <- data.frame(age = sample(5:18, size = pt_num), # age must be betwe
 
 ```
 
-The code below shows how to score a TOCS-2 questionnaire using the `score_tocs2()` function.
+The code below shows how to score a SWAN questionnaire using the `score_swan()` function.
 
 
 ```{r}
@@ -49,7 +49,7 @@ library(sfsScorer)
 #' age (5-18)
 #' gender (1 = boy, 2 = girl)
 #'  p_respondent (1 = parent responded, 0 = Nonparent respondent)
-#'  All tocs questions 1-24 as tocs1...tocs24
+#'  All swan questions 1-18 as swan1...swan24
 head(random_data, 1)
 
 
@@ -59,14 +59,14 @@ scores <- score_swan(df = random_data)
 
 # OR
 # Score from a a csv or xlsx file
-swan <- system.file("extdata", "sample_tocs.csv", package = "sfsScorer")
-scores_csv <- score_swan(file = tocs_csv)
+csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
+scores_csv <- score_swan(file = csv)
 
 ```
 
 ## Notes about the data
 
--   The `get_swan_tscores()` function will ask you to upload a spreadsheet with your SWAN data.  If you have any additional columns beyond the necessary columns described below, i.e. an identifier, those columns will remain untouched in the output. For example, if your input file has two additional columns, an identifier and parent's education, those columns will pass through to the output file. 
+-   The `score_swan()` function will ask you to upload a spreadsheet with your SWAN data.  If you have any additional columns beyond the necessary columns described below, i.e. an identifier, those columns will remain untouched in the output. For example, if your input file has two additional columns, an identifier and parent's education, those columns will pass through to the output file. 
 
 -   Scores are automatically reversed before calculating the t-score so that a higher score is associated with higher ADHD trait.
 
@@ -125,13 +125,13 @@ prompted to select your file. Second, we will check that your data are
 formatted properly. Third, t-scores for the full test as well as the
 two subdomains (inattentive and hyperactive) will be generated. Fourth, a csv file with the t-scores will be saved to your working directory
 
-If you receive an error, please correct the issue in your file, save your file, then run the `get_swan_tscores()` function again.
+If you receive an error, please correct the issue in your file, save your file, then run the `score_swan()` function again.
 
 ```{r example, eval = FALSE}
 library(sfsScorer)
 
-# The get_swan_tscores checks that your data are formatted correctly and generates the t-scores
-swan_tscores <- get_swan_tscores()
+# The score_swan checks that your data are formatted correctly and generates the t-scores
+swan_tscores <- score_swan()
 ```
 
 ### Additional options
@@ -148,13 +148,13 @@ You have the option to specify...
 library(sfsScorer)
 
 # Example of how to specify the input file
-swan_tscores <- get_swan_tscores(file = here("test_scores.csv"))
+swan_tscores <- score_swan(file = here("test_scores.csv"))
 
 # Example of how to specify an output folder
-swan_tscores <- get_swan_tscores(output_folder = file.path("C:","Users",..."yourpath"))
+swan_tscores <- score_swan(output_folder = file.path("C:","Users",..."yourpath"))
 
 # Example of how to not export a csv file
-swan_tscores <- get_swan_tscores(output_folder = NULL)
+swan_tscores <- score_swan(output_folder = NULL)
 
 
 
