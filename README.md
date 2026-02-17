@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sfsScorer
+# sfsScorer <a href="https://Schachar-Crosbie-Lab.github.io/sfsScorer/"><img src="man/figures/logo.png" align="right" height="138" alt="sfsScorer website" /></a>
 
 <!-- badges: start -->
 
@@ -17,8 +17,6 @@ Scoring tools for commonly used child and youth psychiatric
 questionnaires.
 
 ## Spit for Science
-
-<img src="man/figures/Spit-for-Science-Infographic-2.jpg" width="40%" />
 
 Spit for Science (SFS) was a large population-based study examining
 mental health in 40,000 children and youth. The study is one of the

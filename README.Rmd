@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# sfsScorer
+# sfsScorer <a href="https://Schachar-Crosbie-Lab.github.io/sfsScorer/"><img src="man/figures/logo.png" align="right" height="138" alt="sfsScorer website" /></a>
 
 <!-- badges: start -->
 
@@ -25,7 +25,7 @@ Scoring tools for commonly used child and youth psychiatric questionnaires.
 
 ## Spit for Science
 
-```{r, echo = FALSE, out.width="40%"}
+```{r, echo = FALSE, include=FALSE, out.width="40%"}
 knitr::include_graphics('man/figures/Spit-for-Science-Infographic-2.jpg')
 ```
 
