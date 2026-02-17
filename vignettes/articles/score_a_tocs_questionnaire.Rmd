@@ -13,12 +13,6 @@ knitr::opts_chunk$set(
 
 The Toronto Obsessive-Compulsive Scale 2 (TOCS-2) is a validated instrument for measuring Obsessive-Compulsive (OCD) traits. This article shows you how to score your TOCS-2 tests.
 
-Let's start by loading sfsScorer
-
-```{r setup}
-library(sfsScorer)
-```
-
 ## Quick Start
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
@@ -45,10 +39,13 @@ The code below shows how to score a TOCS-2 questionnaire using the `score_tocs2(
 
 
 ```{r}
+library(sfsScorer)
 
-# Here's how we expect the data to be formatted
-# Must include age (5-18), gender (1 = boy, 2 = girl), p_respondent (1 = parent responded, 0 = Nonparent respondent)
-#   All tocs questions 1-24 as tocs1...tocs24
+#' Here's how we expect the data to be formatted
+#' age (5-18)
+#' gender (1 = boy, 2 = girl)
+#'  p_respondent (1 = parent responded, 0 = Nonparent respondent)
+#'  All tocs questions 1-24 as tocs1...tocs24
 head(random_data, 1)
 
 
@@ -63,25 +60,15 @@ scores_csv <- score_tocs2(file = tocs_csv)
 
 ```
 
+## Notes Before Starting
 
-
-
-
-## Notes about the data
-
--   The `get_swan_tscores()` function will ask you to upload a spreadsheet with your SWAN data. If you have any additional columns beyond the necessary columns described below, i.e. an identifier, those columns will remain untouched in the output. For example, if your input file has two additional columns, an identifier and parent's education, those columns will pass through to the output file.
-
--   Scores are automatically reversed before calculating the t-score so that a higher score is associated with higher ADHD trait.
-
--   The test is split into two subdomains. Questions 1-9 measure inattentiveness. Questions 10-18 measure hyperactivity and impulsivity. If more than one question is missing from a subdomain the test will not be scored.
-
--   T-scores will be generated based on gendered and non-gendered norms. Please feel free to include children who are trans or non-binary in your dataset and leave the codes for their gender as appropriate for the individuals in your study. Non-gendered t-scores will be generated for all individuals. To generate gendered t-scores for binary gendered participants be sure to code gender as 1 = boy and 2 = girl. Any gender not coded as 1 or 2 will not receive a gendered t-score. Any gender not coded as 1 or 2 will not receive a gendered t-score.
+-   T-scores will be generated based on gendered and non-gendered norms. Please feel free to include children who are trans or non-binary in your dataset and leave the codes for their gender as appropriate for the individuals in your study. Non-gendered t-scores will be generated for all individuals. Gendered t-scores will only be generated when gender is coded as 1 or 2. It is recommended to use the non-gendered t-scores for trans or non-binary individuals.
 
 ## Instructions
 
 ### Formatting Your Data
 
-Our first step is to prepare your raw SWAN data.
+Our first step is to prepare your raw TOCS-2 data.
 
 1.  Prepare a spreadsheet, preferably a .csv file, with a row for each of the tests you'd like to score.
 
@@ -94,94 +81,83 @@ Our first step is to prepare your raw SWAN data.
     | age | The child's age | 5 - 18 <br><br> Note: Age in a numeric form, i.e. with decimals, will provide a more accurate t-score compared to an integer-based age |
     | gender | The child's gender. Please feel free to include children who are trans or non-binary in your dataset and leave the codes for their gender as appropriate for the individuals in your study. Non-gendered t-scores will be generated for all individuals. To generate gendered t-scores for binary gendered participants be sure to code gender as 1 = boy and 2 = girl | 1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will not receive a gendered t-score. |
     | p_respondent | Whether the survey was filled out by the parent or the child | 1 = Parent Respondent, 0 = Child / Youth Self-Respondent |
-    | swan1 | 1\. Give close attention to detail and avoid careless mistakes | -3 (Far Below) to 3 (Far Above) |
-    | swan2 | 2\. Sustain attention on tasks and play activities | -3 (Far Below) to 3 (Far Above) |
-    | swan3 | 3\. Listen when spoken to directly | -3 (Far Below) to 3 (Far Above) |
-    | swan4 | 4\. Follow through on instructions and finish schoolwork / chores | -3 (Far Below) to 3 (Far Above) |
-    | swan5 | 5\. Organize tasks and activities | -3 (Far Below) to 3 (Far Above) |
-    | swan6 | 6\. Engage in tasks that require sustained mental effort | -3 (Far Below) to 3 (Far Above) |
-    | swan7 | 7\. Keep track of things necessary for activities | -3 (Far Below) to 3 (Far Above) |
-    | swan8 | 8\. Ignore extraneous stimuli (able to ignore background noise/distractions) | -3 (Far Below) to 3 (Far Above) |
-    | swan9 | 9\. Remember daily activities | -3 (Far Below) to 3 (Far Above) |
-    | swan10 | 10\. Sit still (control movements of hands / feet or control squirming) | -3 (Far Below) to 3 (Far Above) |
-    | swan11 | 11\. Stay seated (when required by class rules / social conventions) | -3 (Far Below) to 3 (Far Above) |
-    | swan12 | 12\. Modulate motor activity (inhibit inappropriate running / climbing) | -3 (Far Below) to 3 (Far Above) |
-    | swan13 | 13\. Play quietly (keep noise level reasonable) | -3 (Far Below) to 3 (Far Above) |
-    | swan14 | 14\. Settle down and rest (control constant activity) | -3 (Far Below) to 3 (Far Above) |
-    | swan15 | 15\. Modulate verbal activity (control excess talking) | -3 (Far Below) to 3 (Far Above) |
-    | swan16 | 16\. Reflect on questions (control blurting out answers) | -3 (Far Below) to 3 (Far Above) |
-    | swan17 | 17\. Await turn (stand in line and take turns) | -3 (Far Below) to 3 (Far Above) |
-    | swan18 | 18\. Enter into conversations and games (control interrupting / intruding) | -3 (Far Below) to 3 (Far Above) |
+    | tocs1 | TOCS-2 Question #1 | -3 (Far Below) to 3 (Far Above) |
+    | tocs2 | TOCS-2 Question #2 | -3 (Far Below) to 3 (Far Above) |
+    | tocs3 | TOCS-2 Question #3 | -3 (Far Below) to 3 (Far Above) |
+    | tocs4 | TOCS-2 Question #4 | -3 (Far Below) to 3 (Far Above) |
+    | tocs5 | TOCS-2 Question #5 | -3 (Far Below) to 3 (Far Above) |
+    | tocs6 | TOCS-2 Question #6 | -3 (Far Below) to 3 (Far Above) |
+    | tocs7 | TOCS-2 Question #7 | -3 (Far Below) to 3 (Far Above) |
+    | tocs8 | TOCS-2 Question #8 | -3 (Far Below) to 3 (Far Above) |
+    | tocs9 | TOCS-2 Question #9 | -3 (Far Below) to 3 (Far Above) |
+    | tocs10 | TOCS-2 Question #10 | -3 (Far Below) to 3 (Far Above) |
+    | tocs11 | TOCS-2 Question #11 | -3 (Far Below) to 3 (Far Above) |
+    | tocs12 | TOCS-2 Question #12 | -3 (Far Below) to 3 (Far Above) |
+    | tocs13 | TOCS-2 Question #13 | -3 (Far Below) to 3 (Far Above) |
+    | tocs14 | TOCS-2 Question #14 | -3 (Far Below) to 3 (Far Above) |
+    | tocs15 | TOCS-2 Question #15 | -3 (Far Below) to 3 (Far Above) |
+    | tocs16 | TOCS-2 Question #16 | -3 (Far Below) to 3 (Far Above) |
+    | tocs17 | TOCS-2 Question #17 | -3 (Far Below) to 3 (Far Above) |
+    | tocs18 | TOCS-2 Question #18 | -3 (Far Below) to 3 (Far Above) |
+    | tocs19 | TOCS-2 Question #19 | -3 (Far Below) to 3 (Far Above) |
+    | tocs20 | TOCS-2 Question #20 | -3 (Far Below) to 3 (Far Above) |
+    | tocs21 | TOCS-2 Question #21 | -3 (Far Below) to 3 (Far Above) |
+    | tocs22 | TOCS-2 Question #22 | -3 (Far Below) to 3 (Far Above) |
+    | tocs23 | TOCS-2 Question #23 | -3 (Far Below) to 3 (Far Above) |
+    | tocs24 | TOCS-2 Question #24 | -3 (Far Below) to 3 (Far Above) |
+
 
     </div>
 
 ### Generate Scores
 
-Use the code below to generate your t-scores. First, you will be prompted to select your file. Second, we will check that your data are formatted properly. Third, t-scores for the full test as well as the two subdomains (inattentive and hyperactive) will be generated. Fourth, a csv file with the t-scores will be saved to your working directory
+Use the code below to generate your t-scores. First, you will be prompted to select your file. Second, we will check that your data are formatted properly. Third, t-scores will be generated. 
 
-If you receive an error, please correct the issue in your file, save your file, then run the `get_swan_tscores()` function again.
+If you receive an error, please correct the issue in your file, save your file, then run the `score_tocs2()` function again.
 
 ```{r example, eval = FALSE}
 library(sfsScorer)
 
-# The get_swan_tscores checks that your data are formatted correctly and generates the t-scores
-swan_tscores <- get_swan_tscores()
+# The score_tocs2 function checks that your data are formatted correctly and generates the t-scores
+tocs <- score_tocs2()
 ```
 
 ### Additional options
 
-You have the option to specify...
-
-1.  the file path of the input file
-
-2.  where to export the csv file with t-scores
-
-3.  not to export the csv file
+You have the option to...
 
 ```{r example2, eval=FALSE}
-library(sfsScorer)
 
-# Example of how to specify the input file
-swan_tscores <- get_swan_tscores(file = here("test_scores.csv"))
+# Score from a data.frame in case the data do not exist in a csv file
+tocs <- score_tocs2(df = tocs)
 
-# Example of how to specify an output folder
-swan_tscores <- get_swan_tscores(output_folder = file.path("C:","Users",..."yourpath"))
+# Specify the input file
+tocs <- score_tocs2(file = here("test_scores.csv"))
 
-# Example of how to not export a csv file
-swan_tscores <- get_swan_tscores(output_folder = NULL)
+# Export results to an output folder
+tocs <- score_tocs2(output_folder = file.path("C:","Users",..."yourpath"))
 
-
-
+# Change the number of allowed missingness. 
+# Default missinness is 0 questions. You can use the max_missing variable to allow more missingness
+# Doing so will use a prorated score to generate a t-score. This can produce outliers and issues
+tocs <- score_tocs2(file = here("test_scores.csv"), max_missing = 2)
 
 ```
 
 ## Understanding the Output
 
-### Reversed SWAN Scores
-
--   Columns `swan1` to `swan18` are reverse-scored and returned as `swan1_reversed` to `swan18` reversed respectively.
-
 ### Summary Values
 
 | Column | Description |
 |------------------------------------|------------------------------------|
-| swan_tot | A summed score of the answered questions across the entire test |
-| swan_miss | A count of missing values across the entire test |
-| swan_pro | A prorated score by dividing swan_tot by the number of answered questions across the entire test |
-| swan_ia_tot | A summed score of the answered questions across the inattentive subdomain |
-| swan_ia_miss | A count of missing values across the inattentive subdomain |
-| swan_ia_pro | A prorated score by dividing swan_tot by the number of answered questions across the inattentive subdomain |
-| swan_hi_tot | A summed score of the answered questions across the hyperactive subdomain |
-| swan_hi_miss | A count of missing values across the hyperactive subdomain |
-| swan_hi_pro | A prorated score by dividing swan_tot by the number of answered questions across the hyperactive subdomain |
+| tocs_tot | A summed score of the answered questions |
+| tocs_miss | A count of missing values across |
+| tocs_pro | A prorated score by dividing swan_tot by the number of answered questions |
 
-### T-scores for generic model
+
+### T-scores 
 
 | Column | Description |
 |------------------------------------|------------------------------------|
-| swan_tot_gender_tscores | A t-score across the entire SWAN test that adjusts for age, respondent, and gender |
-| swan_tot_tscores | A t-score across the entire SWAN test that adjusts for age and respondent |
-| swan_ia_gender_tscores | A t-score of the inattentive subdomain (questions 1-9) that adjusts for age, respondent, and gender |
-| swan_ia_tscores | A t-score of the inattentive subdomain (questions 1-9) that adjusts for age and respondent |
-| swan_hi_gender_tscores | A t-score of the hyperactive subdomain (questions 10-18) that adjusts for age, respondent, and gender |
-| swan_hi_tscores | A t-score of the hyperactive subdomain (questions 10-18) that adjusts for age and respondent |
+| tocs_gender_tscores | A t-score normed to the Spit for Science sample that adjusts for age, respondent, and gender |
+| tocs_tscores | A t-score  normed to the Spit for Science that adjusts for age and respondent |
