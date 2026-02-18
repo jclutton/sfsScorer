@@ -17,8 +17,8 @@ library(sfsScorer)
 #' Here's how we expect the data to be formatted
 #' age (5-18)
 #' gender (1 = boy, 2 = girl)
-#'  p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
-#'  All tocs questions 1-24 as tocs1...tocs24
+#' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
+#' All tocs questions 1-24 as tocs1...tocs24
 head(random_data, 1)
 #>   age gender p_respondent tocs1 tocs2 tocs3 tocs4 tocs5 tocs6 tocs7 tocs8 tocs9
 #> 1  14      2            1    -1     2    -2     0     3    -1     0     1     2
@@ -29,7 +29,6 @@ head(random_data, 1)
 
 
 # Score from a data frame
-# Read below for more options when scoring
 scores <- score_tocs2(df = random_data)
 #> ✔ The model scored 5 observations.
 #> # A tibble: 4 × 6

@@ -19,8 +19,8 @@ library(sfsScorer)
 #' Here's how we expect the data to be formatted
 #' age (5-18)
 #' gender (1 = boy, 2 = girl)
-#'  p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
-#'  All swan questions 1-18 as swan1...swan24
+#' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
+#' All swan questions 1-18 as swan1...swan24
 head(random_data, 1)
 #>   age gender p_respondent swan1 swan2 swan3 swan4 swan5 swan6 swan7 swan8 swan9
 #> 1  13      1            1    -1     2    -2     0     3    -1     0     1     2
@@ -29,7 +29,6 @@ head(random_data, 1)
 
 
 # Score from a data frame
-# Read below for more options when scoring
 scores <- score_swan(df = random_data)
 #> ✔ The model scored 5 observations.
 #> # A tibble: 4 × 6
