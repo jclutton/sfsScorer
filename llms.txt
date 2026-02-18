@@ -22,14 +22,14 @@ version of sfsScorer from [GitHub](https://github.com/) with:
 ``` r
 # Install with pak
 install.packages("pak")
-pak::pak("jclutton/sfsScorer")
+pak::pak("Schachar-Crosbie-Lab/sfsScorer")
 
 #OR 
 
 # Install with devtools
 # If the devtools package isn't installed already, do so first. 
 install.packages("devtools")
-devtools::install_github("jclutton/SwanScorer")
+devtools::install_github("Schachar-Crosbie-Lab/sfsScorer")
 ```
 
 ## Scoring Tools
@@ -57,8 +57,6 @@ Click on the questionnaire link for instructions.
   : Make Prorated Scores
 - [`mkvars()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/mkvars.md)
   : Make Variables - Subset SWAN to subdomains.
-- [`run_model_old_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/run_model_old_swan.md)
-  : An old version of the model, initially written in Annie's language
 - [`run_model_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/run_model_swan.md)
   : Runs the model that adjusts for time and create t-scores
 - [`run_model_tocs()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/run_model_tocs.md)

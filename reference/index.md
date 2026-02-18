@@ -12,8 +12,6 @@
   : Make Prorated Scores
 - [`mkvars()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/mkvars.md)
   : Make Variables - Subset SWAN to subdomains.
-- [`run_model_old_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/run_model_old_swan.md)
-  : An old version of the model, initially written in Annie's language
 - [`run_model_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/run_model_swan.md)
   : Runs the model that adjusts for time and create t-scores
 - [`run_model_tocs()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/run_model_tocs.md)
