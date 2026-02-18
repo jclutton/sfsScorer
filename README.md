@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sfsScorer <a href="https://Schachar-Crosbie-Lab.github.io/sfsScorer/"><img src="man/figures/logo.png" align="right" height="138" alt="sfsScorer website" /></a>
+# Spit for Science Scorer <a href="https://Schachar-Crosbie-Lab.github.io/sfsScorer/"><img src="man/figures/logo.png" align="right" height="138" alt="sfsScorer website" /></a>
 
 <!-- badges: start -->
 
