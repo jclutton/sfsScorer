@@ -35,14 +35,14 @@ version of sfsScorer from [GitHub](https://github.com/) with:
 ``` r
 # Install with pak
 install.packages("pak")
-pak::pak("jclutton/sfsScorer")
+pak::pak("Schachar-Crosbie-Lab/sfsScorer")
 
 #OR 
 
 # Install with devtools
 # If the devtools package isn't installed already, do so first. 
 install.packages("devtools")
-devtools::install_github("jclutton/SwanScorer")
+devtools::install_github("Schachar-Crosbie-Lab/sfsScorer")
 ```
 
 ## Scoring Tools

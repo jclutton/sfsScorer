@@ -30,3 +30,5 @@ Imports:
     stringr,
     tidyr
 Config/Needs/website: rmarkdown
+Depends: 
+    R (>= 3.5)

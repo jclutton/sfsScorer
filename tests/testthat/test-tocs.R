@@ -68,3 +68,27 @@ test_that("TOCS model function works", {
   expect_equal(run_model_tocs(sample_data), sample_data |> bind_cols(tocs_gender_tscores = c(50.67452),
                                                                      tocs_tscores = c(52.10126)))
 })
+
+test_that("score_tocs2 works", {
+
+  required_test_cols <-  paste0('tocs',seq(1,24,1))
+  required_dem_cols <- c('age','gender','p_respondent')
+  required_cols <- c(required_dem_cols, required_test_cols)
+
+  df <- validate_data |>
+    select(all_of(required_cols)) |>
+    score_tocs2() |>
+    select(contains('_pro'), contains('_tot'), contains('_miss'), contains('tscore')) |>
+    mutate(across(everything(),
+                  ~round(.x, digits = 5)))
+
+  compare <- validate_data |>
+    rename(tocs_gender_tscores = tocs_gender_study_tscores,
+           tocs_tscores = tocs_study_tscores) |>
+    select(colnames(df)) |>
+    mutate(across(everything(),
+                  ~round(.x, digits = 5)))
+
+  expect_equal(df, compare)
+})
+
