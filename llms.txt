@@ -1,4 +1,4 @@
-# sfsScorer
+# Spit for Science Scorer
 
 Scoring tools for commonly used child and youth psychiatric
 questionnaires.
