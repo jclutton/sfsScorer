@@ -2,7 +2,7 @@ test_that("clean_file finds missing columns", {
   file <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
   df <- rio::import(file) |>
     select(-swan1)
-  expect_error(clean_file(df))
+  expect_error(clean_file(df, test = 'swan'))
 })
 
 
@@ -10,7 +10,7 @@ test_that("clean_file finds impossible values", {
   file <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
   df <- rio::import(file) |>
     mutate(swan1 = 10)
-  expect_error(clean_file(df))
+  expect_error(clean_file(df, test = 'swan'))
 })
 
 test_that("mkvars works properly", {

@@ -44,13 +44,12 @@ library(sfsScorer)
 #' Here's how we expect the data to be formatted
 #' age (5-18)
 #' gender (1 = boy, 2 = girl)
-#'  p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
-#'  All tocs questions 1-24 as tocs1...tocs24
+#' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
+#' All tocs questions 1-24 as tocs1...tocs24
 head(random_data, 1)
 
 
 # Score from a data frame
-# Read below for more options when scoring
 scores <- score_tocs2(df = random_data)
 
 # OR
