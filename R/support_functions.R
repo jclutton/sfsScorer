@@ -46,7 +46,12 @@ globalVariables(c())
 #' @importFrom rlang .data
 #' @import cli
 #'
+#' @examples
+#' clean_file(validate_data, test = 'swan', ignore_check = T)
+#'
+#'
 #' @returns A clean data frame ready for t-scores
+#'
 #'
 #'
 clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
