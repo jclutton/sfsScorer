@@ -1,7 +1,7 @@
 Package: sfsScorer
 Type: Package
 Title: Scores child psychometric questionnaires using norms from the Spit for Science study
-Version: 0.1.0.9000
+Version: 0.1.0.9001
 Authors@R: person(
     "Jonathan", "Clutton",
     role = c("aut", "cre"),
