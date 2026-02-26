@@ -60,7 +60,7 @@
 #' # To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
 #' df_mod <- df |>
 #'   dplyr::mutate(swan1 = 6)
-#' scores_csv <- score_swan(df = df, ignore_check = TRUE)
+#' scores_csv <- score_swan(df = df_mod, ignore_check = TRUE)
 #'
 #'
 #' @export
