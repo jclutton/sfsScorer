@@ -13,8 +13,8 @@ Spit for Science (SFS) was a cross-sectional mental health study performed by Dr
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/Schachar-Crosbie-Lab/sfsScorer}
-  \item \url{https://Schachar-Crosbie-Lab.github.io/sfsScorer/}
+  \item \url{https://github.com/jclutton/sfsScorer}
+  \item \url{https://jclutton.github.io/sfsScorer/}
   \item Report bugs at \url{https://github.com/jclutton/sfsScorer/issues}
 }
 

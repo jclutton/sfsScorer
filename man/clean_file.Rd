@@ -9,7 +9,7 @@ clean_file(df = NULL, test = NULL, ignore_check = NULL)
 \arguments{
 \item{df}{The df function allows you to point to a dataframe as opposed to a file}
 
-\item{test}{Which questionnaire are we running#'}
+\item{test}{Which questionnaire are we running}
 
 \item{ignore_check}{Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
 in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to TRUE. NAs will be returned where data are invalid}

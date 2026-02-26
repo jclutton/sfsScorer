@@ -33,3 +33,10 @@ score_swan() returns gendered and non-gendered t-scores for the Strengths and We
 
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
+\examples{
+score_swan(df = validate_data)
+score_swan(df = validate_date, ignore_check = TRUE)
+
+
+
+}

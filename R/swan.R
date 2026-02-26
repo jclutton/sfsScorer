@@ -49,6 +49,11 @@
 #'
 #' @returns table with t-scores attached to raw swan values
 #'
+#' @examples
+#' score_swan(df = validate_data)
+#' score_swan(df = validate_date, ignore_check = TRUE)
+#'
+#'
 #'
 #' @export
 #'

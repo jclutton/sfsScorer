@@ -31,7 +31,7 @@ globalVariables(c())
 #' @description This function runs checks to be sure that the file and non-test specific data are formatted correctly
 #'
 #' @param df The df function allows you to point to a dataframe as opposed to a file
-#' @param test Which questionnaire are we running#'
+#' @param test Which questionnaire are we running
 #' @param ignore_check Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
 #' in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to TRUE. NAs will be returned where data are invalid
 #'
@@ -45,9 +45,6 @@ globalVariables(c())
 #' @importFrom dplyr rename
 #' @importFrom rlang .data
 #' @import cli
-#'
-#' @examples
-#' clean_file(validate_data, test = 'swan', ignore_check = T)
 #'
 #'
 #' @returns A clean data frame ready for t-scores
