@@ -23,29 +23,23 @@ score_swan(df = NULL, file = FALSE, output_folder = NULL, ignore_check = FALSE)
 
   If you prefer scoring a spreadsheet...
 
-  1.  TRUE - This will pop-up a finder to allow you select a file
+  1.  Change to `TRUE` to pop-up a finder to allow you select a file.
+      Alternatively, leave df and file empty to pop-up a finder.
 
-  2.  Specify a pathway
+  2.  Or specify a pathway
 
 - output_folder:
 
-  Output file pathway
-
-  1.  Leave blank - This will output a csv file with the t-scores to
-      your working directory
-
-  2.  Specify a pathway - This will output a csv file to the specified
-      pathway
-
-  3.  Set to `NULL` - This will not output a csv file
+  Optional, output file pathway. Defauts to `NULL`. Specify a pathway to
+  output a csv file.
 
 - ignore_check:
 
   Data are validated to look for missing or improperly formatted values
   before scoring. Errors are thrown when data aren't valid; however,
   this can cause issues in real data sets where data vary for good
-  reasons. To skip the validation process, set ignore_check to TRUE. NAs
-  will be returned where data are invalid
+  reasons. To skip the validation process, set ignore_check to `TRUE`.
+  NAs will be returned where data are invalid
 
 ## Value
 
@@ -54,10 +48,45 @@ table with t-scores attached to raw swan values
 ## Examples
 
 ``` r
-score_swan(df = validate_data)
-#> Error: object 'validate_data' not found
-score_swan(df = validate_date, ignore_check = TRUE)
-#> Error: object 'validate_date' not found
+# Read in the file of scores
+csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 
+# Score via the file parameter
+scores_csv <- score_swan(file = csv)
+#> ✔ The model scored 5 observations.
+#> # A tibble: 4 × 6
+#> # Groups:   gender, youth [4]
+#>   gender youth p_respondent     n  mean     sd
+#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
+#> 1      1     1            1     1  50.8 NA    
+#> 2      2     0            1     2  55.5  0.844
+#> 3      2     1            0     1  58.3 NA    
+#> 4      5     0            1     1 NaN   NA    
+
+# Score via the df paramter
+df <- rio::import(csv)
+scores_csv <- score_swan(df = df)
+#> ✔ The model scored 5 observations.
+#> # A tibble: 4 × 6
+#> # Groups:   gender, youth [4]
+#>   gender youth p_respondent     n  mean     sd
+#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
+#> 1      1     1            1     1  50.8 NA    
+#> 2      2     0            1     2  55.5  0.844
+#> 3      2     1            0     1  58.3 NA    
+#> 4      5     0            1     1 NaN   NA    
+
+# The data are automatically validated.
+# To ignore the validation errors and introduce `NA`, set `ignore_check = FALSE`
+scores_csv <- score_swan(df = df, ignore_check = FALSE)
+#> ✔ The model scored 5 observations.
+#> # A tibble: 4 × 6
+#> # Groups:   gender, youth [4]
+#>   gender youth p_respondent     n  mean     sd
+#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
+#> 1      1     1            1     1  50.8 NA    
+#> 2      2     0            1     2  55.5  0.844
+#> 3      2     1            0     1  58.3 NA    
+#> 4      5     0            1     1 NaN   NA    
 
 ```

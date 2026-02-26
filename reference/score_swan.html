@@ -57,21 +57,18 @@
 
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
-<dd><p>If you prefer scoring a spreadsheet...</p><ol><li><p>TRUE - This will pop-up a finder to allow you select a file</p></li>
-<li><p>Specify a pathway</p></li>
+<dd><p>If you prefer scoring a spreadsheet...</p><ol><li><p>Change to <code>TRUE</code> to pop-up a finder to allow you select a file. Alternatively, leave df and file empty to pop-up a finder.</p></li>
+<li><p>Or specify a pathway</p></li>
 </ol></dd>
 
 
 <dt id="arg-output-folder">output_folder<a class="anchor" aria-label="anchor" href="#arg-output-folder"></a></dt>
-<dd><p>Output file pathway</p><ol><li><p>Leave blank - This will output a csv file with the t-scores to your working directory</p></li>
-<li><p>Specify a pathway - This will output a csv file to the specified pathway</p></li>
-<li><p>Set to <code>NULL</code> - This will not output a csv file</p></li>
-</ol></dd>
+<dd><p>Optional, output file pathway. Defauts to <code>NULL</code>. Specify a pathway to output a csv file.</p></dd>
 
 
 <dt id="arg-ignore-check">ignore_check<a class="anchor" aria-label="anchor" href="#arg-ignore-check"></a></dt>
 <dd><p>Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
-in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to TRUE. NAs will be returned where data are invalid</p></dd>
+in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to <code>TRUE</code>. NAs will be returned where data are invalid</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -81,11 +78,46 @@ in real data sets where data vary for good reasons. To skip the validation proce
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">validate_data</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'validate_data' not found</span>
-<span class="r-in"><span><span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">validate_date</span>, ignore_check <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'validate_date' not found</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Read in the file of scores</span></span></span>
+<span class="r-in"><span><span class="va">csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample_swan.csv"</span>, package <span class="op">=</span> <span class="st">"sfsScorer"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Score via the file parameter</span></span></span>
+<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>file <span class="op">=</span> <span class="va">csv</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender, youth [4]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   gender youth p_respondent     n  mean     sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      1     1            1     1  50.8 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      2     0            1     2  55.5  0.844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      2     1            0     1  58.3 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Score via the df paramter</span></span></span>
+<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="http://gesistsa.github.io/rio/reference/import.html" class="external-link">import</a></span><span class="op">(</span><span class="va">csv</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender, youth [4]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   gender youth p_respondent     n  mean     sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      1     1            1     1  50.8 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      2     0            1     2  55.5  0.844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      2     1            0     1  58.3 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The data are automatically validated.</span></span></span>
+<span class="r-in"><span><span class="co"># To ignore the validation errors and introduce `NA`, set `ignore_check = FALSE`</span></span></span>
+<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span>, ignore_check <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender, youth [4]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   gender youth p_respondent     n  mean     sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      1     1            1     1  50.8 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      2     0            1     2  55.5  0.844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      2     1            0     1  58.3 <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span>    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
