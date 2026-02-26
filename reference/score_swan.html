@@ -79,6 +79,7 @@ in real data sets where data vary for good reasons. To skip the validation proce
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Read in the file of scores</span></span></span>
+<span class="r-in"><span><span class="co"># This is an example file</span></span></span>
 <span class="r-in"><span><span class="va">csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample_swan.csv"</span>, package <span class="op">=</span> <span class="st">"sfsScorer"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Score via the file parameter</span></span></span>
@@ -107,8 +108,10 @@ in real data sets where data vary for good reasons. To skip the validation proce
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span>    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The data are automatically validated.</span></span></span>
-<span class="r-in"><span><span class="co"># To ignore the validation errors and introduce `NA`, set `ignore_check = FALSE`</span></span></span>
-<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span>, ignore_check <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`</span></span></span>
+<span class="r-in"><span><span class="va">df_mod</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>swan1 <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span>, ignore_check <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender, youth [4]</span></span>

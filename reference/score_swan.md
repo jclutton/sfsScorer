@@ -49,6 +49,7 @@ table with t-scores attached to raw swan values
 
 ``` r
 # Read in the file of scores
+# This is an example file
 csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 
 # Score via the file parameter
@@ -77,8 +78,10 @@ scores_csv <- score_swan(df = df)
 #> 4      5     0            1     1 NaN   NA    
 
 # The data are automatically validated.
-# To ignore the validation errors and introduce `NA`, set `ignore_check = FALSE`
-scores_csv <- score_swan(df = df, ignore_check = FALSE)
+# To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
+df_mod <- df |>
+  dplyr::mutate(swan1 = 6)
+scores_csv <- score_swan(df = df, ignore_check = TRUE)
 #> ✔ The model scored 5 observations.
 #> # A tibble: 4 × 6
 #> # Groups:   gender, youth [4]
