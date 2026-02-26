@@ -30,6 +30,7 @@ score_swan() returns gendered and non-gendered t-scores for the Strengths and We
 }
 \examples{
 # Read in the file of scores
+# This is an example file
 csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 
 # Score via the file parameter
@@ -40,8 +41,10 @@ df <- rio::import(csv)
 scores_csv <- score_swan(df = df)
 
 # The data are automatically validated.
-# To ignore the validation errors and introduce `NA`, set `ignore_check = FALSE`
-scores_csv <- score_swan(df = df, ignore_check = FALSE)
+# To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
+df_mod <- df |>
+  dplyr::mutate(swan1 = 6)
+scores_csv <- score_swan(df = df, ignore_check = TRUE)
 
 
 }

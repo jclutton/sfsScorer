@@ -57,8 +57,10 @@
 #' scores_csv <- score_swan(df = df)
 #'
 #' # The data are automatically validated.
-#' # To ignore the validation errors and introduce `NA`, set `ignore_check = FALSE`
-#' scores_csv <- score_swan(df = df, ignore_check = FALSE)
+#' # To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
+#' df_mod <- df |>
+#'   dplyr::mutate(swan1 = 6)
+#' scores_csv <- score_swan(df = df, ignore_check = TRUE)
 #'
 #'
 #' @export
