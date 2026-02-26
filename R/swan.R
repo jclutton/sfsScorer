@@ -89,7 +89,7 @@ score_swan <- function(df = NULL, file = FALSE, output_folder = NULL, ignore_che
 
 
   # Run QC checks on data
-  check <- clean_file(df, test = 'swan')
+  check <- clean_file(df, test = 'swan', ignore_check = ignore_check)
 
   # Summarize Scores
   summary <- build_summary_swan(check)
