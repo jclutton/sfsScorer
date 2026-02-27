@@ -5,11 +5,13 @@ questionnaires.
 
 ## Spit for Science
 
-Spit for Science (SFS) was a large population-based study examining
-mental health in 40,000 children and youth. The study is one of the
-largest to have psychiatric trait and DNA data on a diverse group of
-children and youth. As such, it has been used to develop norms for the
-psychiatric questionnaires used in the study.
+[Spit for
+Science](https://lab.research.sickkids.ca/crosbie/spit-for-science/#publications)
+(SFS) was a large population-based study examining mental health in
+40,000 children and youth. The study is one of the largest to have
+psychiatric trait and DNA data on a diverse group of children and youth.
+As such, it has been used to develop norms for the psychiatric
+questionnaires used in the study.
 
 This package allows researchers to automatically score their psychiatric
 questionnaires using the SFS norms.

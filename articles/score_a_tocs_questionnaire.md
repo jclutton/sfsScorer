@@ -62,7 +62,6 @@ scores_csv <- score_tocs2(file = tocs_csv)
 #> ! 5 impossible values were changed to NA. This could impact scores. 
 #> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA. To correct, review the following rows before running - "Row 1: tocs1 - 6", "Row 2: tocs1 - 6", "Row 3: tocs1 - 6", "Row 4: tocs1 - 6", and "Row 5: tocs1 - 6"
 #> ✔ The model scored 5 observations.
-#> ! 5 observations were not scored due to excessive missingness. The allowed missingness was changed to 1. We recommend not allowing any missingess
 ```
 
 ## Notes Before Starting
