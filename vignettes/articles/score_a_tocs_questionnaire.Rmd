@@ -64,6 +64,11 @@ scores_csv <- score_tocs2(file = tocs_csv)
  # To ignore validation and introduce NAs use `ignore_check = TRUE`. 
  # This can impact scoring
  scores_csv <- score_tocs2(df = df_mod, ignore_check = TRUE)
+ 
+ # Allow more missingness
+ # This will use prorated scores
+  scores_csv <- score_tocs2(df = df_mod, ignore_check = TRUE, max_missing = 1)
+
 
 ```
 
