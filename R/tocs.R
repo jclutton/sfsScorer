@@ -25,18 +25,14 @@
 #' @param df If you already have the TOCS-2 data in your R environment, pass the dataframe to this parameter
 #' @param file If you prefer scoring a spreadsheet...
 #' \enumerate{
-#'  \item TRUE - This will pop-up a finder to allow you select a file
-#'  \item Specify a pathway
+#'  \item Change to `TRUE` to pop-up a finder to allow you select a file. Alternatively, leave df and file empty to pop-up a finder.
+#'  \item Or specify a pathway
 #'  }
 #' @param max_missing By default, 0 items are allowed to be missing on the TOCS. Any questionnaire with 1 or more missing, will not be scored. If you'd like to adjust this number, change the max_missing value.
 #'  This will use a prorated score to generate t-scores. Please be aware that missingness can induce issues when analyzing.
-#' @param output_folder Output file pathway
-#'  \enumerate{
-#'  \item Leave blank - This will output a csv file with the t-scores to your working directory
-#'  \item Specify a pathway - This will output a csv file to the specified pathway
-#'  \item Set to `NULL` - This will not output a csv file
-#'  }
-
+#' @param output_folder Optional, output file pathway. Defauts to `NULL`. Specify a pathway to output a csv file.
+#' @param ignore_check Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
+#' in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to `TRUE`. NAs will be returned where data are invalid
 #'
 #' @importFrom rio export
 #' @importFrom lubridate now
@@ -47,16 +43,32 @@
 #' @importFrom here here
 #' @importFrom cli cli_alert_success
 #'
-#'
-#'
 #' @returns table with t-scores attached to raw swan values
+#'
+#' @examples
+#' # Read in the file of scores
+#' # This is an example file
+#' csv <- system.file("extdata", "sample_tocs.csv", package = "sfsScorer")
+#'
+#' # Score via the file parameter
+#' scores_csv <- score_tocs2(file = csv)
+#'
+#' # Score via the df paramter
+#' df <- rio::import(csv)
+#' scores_csv <- score_tocs2(df = df)
+#'
+#' # The data are automatically validated.
+#' # To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
+#' df_mod <- df |>
+#'   dplyr::mutate(p_respondent = 2)
+#' scores_csv <- score_tocs2(df = df_mod, ignore_check = TRUE)
 #'
 #' @export
 #'
 #'
 
 score_tocs2 <- function(df = NULL, file = FALSE, output_folder = NULL,
-                             max_missing = 0) {
+                             max_missing = 0, ignore_check = FALSE) {
 
   if(is.null(df) | is.character(df) | is.logical(df)){
 
@@ -78,7 +90,7 @@ score_tocs2 <- function(df = NULL, file = FALSE, output_folder = NULL,
 
 
   # Run QC checks on data
-  check <- clean_file(df, test = 'tocs')
+  check <- clean_file(df, test = 'tocs', ignore_check = ignore_check)
 
   # Summarize Scores
   summary <- build_summary_tocs(check, max_missing = max_missing)
