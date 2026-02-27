@@ -55,43 +55,27 @@ csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 # Score via the file parameter
 scores_csv <- score_swan(file = csv)
 #> ✔ The model scored 5 observations.
-#> # A tibble: 4 × 6
-#> # Groups:   gender, youth [4]
-#>   gender youth p_respondent     n  mean     sd
-#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
-#> 1      1     1            1     1  50.8 NA    
-#> 2      2     0            1     2  55.5  0.844
-#> 3      2     1            0     1  58.3 NA    
-#> 4      5     0            1     1 NaN   NA    
 
 # Score via the df paramter
 df <- rio::import(csv)
 scores_csv <- score_swan(df = df)
 #> ✔ The model scored 5 observations.
-#> # A tibble: 4 × 6
-#> # Groups:   gender, youth [4]
-#>   gender youth p_respondent     n  mean     sd
-#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
-#> 1      1     1            1     1  50.8 NA    
-#> 2      2     0            1     2  55.5  0.844
-#> 3      2     1            0     1  58.3 NA    
-#> 4      5     0            1     1 NaN   NA    
 
-# The data are automatically validated.
-# To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
+# Data will be validated
 df_mod <- df |>
   dplyr::mutate(swan1 = 6)
+try(scores_csv <- score_swan(df = df_mod))
+#> There are 5 impossible values in the file.
+#> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA.
+#> 
+#> Error in clean_file(df, test = "swan", ignore_check = ignore_check) : 
+#>   Please correct or remove these rows - "Row 1: swan1 - 6", "Row 2: swan1
+#> - 6", "Row 3: swan1 - 6", "Row 4: swan1 - 6", and "Row 5: swan1 - 6"
+
+# To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
 scores_csv <- score_swan(df = df_mod, ignore_check = TRUE)
 #> ! 5 impossible values were changed to NA. This could impact scores. 
 #> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA. To correct, review the following rows before running - "Row 1: swan1 - 6", "Row 2: swan1 - 6", "Row 3: swan1 - 6", "Row 4: swan1 - 6", and "Row 5: swan1 - 6"
 #> ✔ The model scored 5 observations.
-#> # A tibble: 4 × 6
-#> # Groups:   gender, youth [4]
-#>   gender youth p_respondent     n  mean     sd
-#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
-#> 1      1     1            1     1  50.2 NA    
-#> 2      2     0            1     2  54.5  0.432
-#> 3      2     1            0     1  59.9 NA    
-#> 4      5     0            1     1 NaN   NA    
 
 ```

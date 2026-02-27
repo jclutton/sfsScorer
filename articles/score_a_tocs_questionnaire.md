@@ -27,32 +27,34 @@ head(random_data, 1)
 #>   tocs21 tocs22 tocs23 tocs24
 #> 1      1     -2      3     -3
 
-
 # Score from a data frame
 scores <- score_tocs2(df = random_data)
 #> ✔ The model scored 5 observations.
-#> # A tibble: 4 × 6
-#> # Groups:   gender, youth [4]
-#>   gender youth p_respondent     n  mean    sd
-#>    <int> <dbl>        <dbl> <int> <dbl> <dbl>
-#> 1      1     0            1     2  57.1  2.83
-#> 2      1     1            1     1  54.8 NA   
-#> 3      2     0            1     1  60.4 NA   
-#> 4      2     1            1     1  56.2 NA
 
 # OR
 # Score from a a csv or xlsx file
 tocs_csv <- system.file("extdata", "sample_tocs.csv", package = "sfsScorer")
 scores_csv <- score_tocs2(file = tocs_csv)
 #> ✔ The model scored 5 observations.
-#> # A tibble: 4 × 6
-#> # Groups:   gender, youth [4]
-#>   gender youth p_respondent     n  mean    sd
-#>    <int> <dbl>        <int> <int> <dbl> <dbl>
-#> 1      1     0            1     2  57.1  2.83
-#> 2      1     1            0     1  49.9 NA   
-#> 3      2     0            1     1  60.4 NA   
-#> 4      2     1            1     1  56.2 NA
+
+# Data are validated by default
+ df_mod <- random_data |> 
+   dplyr::mutate(tocs1 = 6)
+ try(scores_csv <- score_tocs2(df = df_mod))
+#> There are 5 impossible values in the file.
+#> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA.
+#> 
+#> Error in clean_file(df, test = "tocs", ignore_check = ignore_check) : 
+#>   Please correct or remove these rows - "Row 1: tocs1 - 6", "Row 2: tocs1
+#> - 6", "Row 3: tocs1 - 6", "Row 4: tocs1 - 6", and "Row 5: tocs1 - 6"
+ 
+ # To ignore validation and introduce NAs use `ignore_check = TRUE`. 
+ # This can impact scoring
+ scores_csv <- score_tocs2(df = df_mod, ignore_check = TRUE)
+#> ! 5 impossible values were changed to NA. This could impact scores. 
+#> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA. To correct, review the following rows before running - "Row 1: tocs1 - 6", "Row 2: tocs1 - 6", "Row 3: tocs1 - 6", "Row 4: tocs1 - 6", and "Row 5: tocs1 - 6"
+#> ✔ The model scored 0 observations.
+#> ! 5 observations were not scored due to excessive missingness. 0 questions are allowed to be missing.
 ```
 
 ## Notes Before Starting

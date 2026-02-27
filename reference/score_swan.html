@@ -85,44 +85,28 @@ in real data sets where data vary for good reasons. To skip the validation proce
 <span class="r-in"><span><span class="co"># Score via the file parameter</span></span></span>
 <span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>file <span class="op">=</span> <span class="va">csv</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender, youth [4]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   gender youth p_respondent     n  mean     sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      1     1            1     1  50.8 <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      2     0            1     2  55.5  0.844</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      2     1            0     1  58.3 <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span>    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Score via the df paramter</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="http://gesistsa.github.io/rio/reference/import.html" class="external-link">import</a></span><span class="op">(</span><span class="va">csv</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender, youth [4]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   gender youth p_respondent     n  mean     sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      1     1            1     1  50.8 <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      2     0            1     2  55.5  0.844</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      2     1            0     1  58.3 <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span>    </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The data are automatically validated.</span></span></span>
-<span class="r-in"><span><span class="co"># To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`</span></span></span>
+<span class="r-in"><span><span class="co"># Data will be validated</span></span></span>
 <span class="r-in"><span><span class="va">df_mod</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>swan1 <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_mod</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> There are 5 impossible values in the file.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The only valid values are <span style="color: #0000BB;">-3</span>, <span style="color: #0000BB;">-2</span>, <span style="color: #0000BB;">-1</span>, <span style="color: #0000BB;">0</span>, <span style="color: #0000BB;">1</span>, <span style="color: #0000BB;">2</span>, <span style="color: #0000BB;">3</span>, and <span style="color: #0000BB;">NA</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in clean_file(df, test = "swan", ignore_check = ignore_check) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Please correct or remove these rows - <span style="color: #0000BB;">"Row 1: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 2: swan1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">- 6"</span>, <span style="color: #0000BB;">"Row 3: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 4: swan1 - 6"</span>, and <span style="color: #0000BB;">"Row 5: swan1 - 6"</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`</span></span></span>
 <span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_mod</span>, ignore_check <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> 5 impossible values were changed to <span style="font-style: italic;">NA</span>. This could impact scores. </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The only valid values are <span style="color: #0000BB;">-3</span>, <span style="color: #0000BB;">-2</span>, <span style="color: #0000BB;">-1</span>, <span style="color: #0000BB;">0</span>, <span style="color: #0000BB;">1</span>, <span style="color: #0000BB;">2</span>, <span style="color: #0000BB;">3</span>, and <span style="color: #0000BB;">NA</span>. To correct, review the following rows before running - <span style="color: #0000BB;">"Row 1: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 2: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 3: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 4: swan1 - 6"</span>, and <span style="color: #0000BB;">"Row 5: swan1 - 6"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Groups:   gender, youth [4]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   gender youth p_respondent     n  mean     sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      1     1            1     1  50.2 <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>      2     0            1     2  54.5  0.432</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>      2     1            0     1  59.9 <span style="color: #BB0000;">NA</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>      5     0            1     1 <span style="color: #BB0000;">NaN</span>   <span style="color: #BB0000;">NA</span>    </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

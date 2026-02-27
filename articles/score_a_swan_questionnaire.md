@@ -27,32 +27,32 @@ head(random_data, 1)
 #>   swan10 swan11 swan12 swan13 swan14 swan15 swan16 swan17 swan18
 #> 1      2      0     -2      2     -1     -1      2      0     -2
 
-
 # Score from a data frame
 scores <- score_swan(df = random_data)
 #> ✔ The model scored 5 observations.
-#> # A tibble: 4 × 6
-#> # Groups:   gender, youth [4]
-#>   gender youth p_respondent     n  mean     sd
-#>    <int> <dbl>        <dbl> <int> <dbl>  <dbl>
-#> 1      1     0            1     1  52.1 NA    
-#> 2      1     1            1     1  50.8 NA    
-#> 3      2     0            1     2  55.2  0.503
-#> 4      2     1            1     1  58.8 NA
 
 # OR
 # Score from a a csv or xlsx file
 csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 scores_csv <- score_swan(file = csv)
 #> ✔ The model scored 5 observations.
-#> # A tibble: 4 × 6
-#> # Groups:   gender, youth [4]
-#>   gender youth p_respondent     n  mean     sd
-#>    <int> <dbl>        <int> <int> <dbl>  <dbl>
-#> 1      1     1            1     1  50.8 NA    
-#> 2      2     0            1     2  55.5  0.844
-#> 3      2     1            0     1  58.3 NA    
-#> 4      5     0            1     1 NaN   NA
+
+# Data are validated by default
+ df_mod <- random_data |> 
+   dplyr::mutate(swan1 = 6)
+ try(scores_csv <- score_swan(df = df_mod))
+#> There are 5 impossible values in the file.
+#> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA.
+#> 
+#> Error in clean_file(df, test = "swan", ignore_check = ignore_check) : 
+#>   Please correct or remove these rows - "Row 1: swan1 - 6", "Row 2: swan1
+#> - 6", "Row 3: swan1 - 6", "Row 4: swan1 - 6", and "Row 5: swan1 - 6"
+ 
+ # To ignore validation and introduce NAs use `ignore_check = TRUE`
+ scores_csv <- score_swan(df = df_mod, ignore_check = TRUE)
+#> ! 5 impossible values were changed to NA. This could impact scores. 
+#> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA. To correct, review the following rows before running - "Row 1: swan1 - 6", "Row 2: swan1 - 6", "Row 3: swan1 - 6", "Row 4: swan1 - 6", and "Row 5: swan1 - 6"
+#> ✔ The model scored 5 observations.
 ```
 
 ## Notes about the data
@@ -130,6 +130,10 @@ swan_tscores <- score_swan(file = here("test_scores.csv"))
 
 # Example of how to specify an output folder
 swan_tscores <- score_swan(output_folder = file.path("C:","Users",..."yourpath"))
+
+# Data are automatically validated. 
+# To ignore validation and introduce NA, ignore_check = TRUE
+swan_tscores <- score_swan(df = sample_data, ignore_check = TRUE)
 ```
 
 ## Understanding the Output
