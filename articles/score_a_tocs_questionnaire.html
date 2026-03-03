@@ -78,7 +78,9 @@ shows you how to score your TOCS-2 tests.</p>
 <span></span>
 <span><span class="co">#' Here's how we expect the data to be formatted</span></span>
 <span><span class="co">#' age (5-18)</span></span>
-<span><span class="co">#' gender (1 = boy, 2 = girl)</span></span>
+<span><span class="co">#' gender </span></span>
+<span><span class="co">#'  for non-gendered t-scores (Any scores are acceptable)</span></span>
+<span><span class="co">#'  for gendered t-scores (1 = boy, 2 = girl)</span></span>
 <span><span class="co">#' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)</span></span>
 <span><span class="co">#' All tocs questions 1-24 as tocs1...tocs24</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">random_data</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -182,7 +184,8 @@ as appropriate for the individuals in your study. Non-gendered t-scores
 will be generated for all individuals. To generate gendered t-scores for
 binary gendered participants be sure to code gender as 1 = boy and 2 =
 girl</td>
-<td>1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will
+<td>Non-gendered t-scores <br> no requirement <br><br> Gendered t-scores
+<br>1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will
 not receive a gendered t-score.</td>
 </tr>
 <tr class="odd">
