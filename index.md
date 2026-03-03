@@ -6,7 +6,7 @@ questionnaires.
 ## Spit for Science
 
 [Spit for
-Science](https://lab.research.sickkids.ca/crosbie/spit-for-science/#publications)
+Science](https://lab.research.sickkids.ca/crosbie/spit-for-science/)
 (SFS) was a large population-based study examining mental health in
 40,000 children and youth. The study is one of the largest to have
 psychiatric trait and DNA data on a diverse group of children and youth.
