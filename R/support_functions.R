@@ -17,7 +17,22 @@
 #### Load language ####
 #### Declares language upload loading the package.
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage("sfsScorer has been loaded")
+  #packageStartupMessage("sfsScorer Copyright (C) 2026 SickKids\nThis program comes with ABSOLUTELY NO WARRANTY. ")
+
+  welcome <- function() {
+    cli::cli_inform(cli::cli({
+      cli::cli_par()
+      cli::cli_text("{.pkg sfsScorer} Copyright (C) 2026 Jonathan Clutton / The Hospital for Sick Children")
+      cli::cli_text("This program comes with ABSOLUTELY NO WARRANTY")
+      cli::cli_text("This is free software, and you are welcome to redistribute it under certain conditions")
+      cli::cli_text("See conditions: {.url https://jclutton.github.io/sfsScorer/LICENSE.html}")
+      cli::cli_par()
+      }),
+    class = "packageStartupMessage")
+  }
+
+  welcome()
+
 }
 
 #### Global Variables ####
