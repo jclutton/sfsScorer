@@ -19,7 +19,7 @@ library(sfsScorer)
 #' Here's how we expect the data to be formatted
 #' age (5-18)
 #' gender 
-#'  for non-gendered t-scores (Any scores are acceptable)
+#'  for non-gendered t-scores (Any gender values are acceptable)
 #'  for gendered t-scores (1 = boy, 2 = girl)
 #' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
 #' All swan questions 1-18 as swan1...swan18

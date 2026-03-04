@@ -81,7 +81,7 @@ tests.</p>
 <span><span class="co">#' Here's how we expect the data to be formatted</span></span>
 <span><span class="co">#' age (5-18)</span></span>
 <span><span class="co">#' gender </span></span>
-<span><span class="co">#'  for non-gendered t-scores (Any scores are acceptable)</span></span>
+<span><span class="co">#'  for non-gendered t-scores (Any gender values are acceptable)</span></span>
 <span><span class="co">#'  for gendered t-scores (1 = boy, 2 = girl)</span></span>
 <span><span class="co">#' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)</span></span>
 <span><span class="co">#' All swan questions 1-18 as swan1...swan18</span></span>
@@ -182,15 +182,13 @@ age</td>
 </tr>
 <tr class="even">
 <td>gender</td>
-<td>The child’s gender. Please feel free to include children who are
-trans or non-binary in your dataset and leave the codes for their gender
-as appropriate for the individuals in your study. Non-gendered t-scores
-will be generated for all individuals. To generate gendered t-scores for
-binary gendered participants be sure to code gender as 1 = boy and 2 =
-girl</td>
-<td>Non-gendered t-scores <br> no requirement <br><br> Gendered t-scores
-<br>1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will
-not receive a gendered t-score.</td>
+<td>The child’s gender. <br><br> - Any and all gender values may be used
+to generate t-scores. <br> - To generate gender-normed t-scores, gender
+must be a binary (1 = boy &amp; 2 = girl)<br> - There are no
+requirements to generate non-gendered t-scores</td>
+<td>Non-gendered t-scores: any value <br><br> Gendered t-scores: 1 =
+Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will not
+receive a gendered t-score.</td>
 </tr>
 <tr class="odd">
 <td>p_respondent</td>
