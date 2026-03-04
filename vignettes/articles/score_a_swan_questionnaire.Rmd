@@ -48,7 +48,7 @@ library(sfsScorer)
 #' Here's how we expect the data to be formatted
 #' age (5-18)
 #' gender 
-#'  for non-gendered t-scores (Any scores are acceptable)
+#'  for non-gendered t-scores (Any gender values are acceptable)
 #'  for gendered t-scores (1 = boy, 2 = girl)
 #' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
 #' All swan questions 1-18 as swan1...swan18
@@ -102,7 +102,7 @@ Our first step is to prepare your raw SWAN data.
     | Column Name | Additional Information | Example |
     |-------------------|------------------------------------|-----------------|
     | age | The child's age | 5 - 18 <br><br> Note: Age in a numeric form, i.e. with decimals, will provide a more accurate t-score compared to an integer-based age |
-    | gender | The child's gender. Please feel free to include children who are trans or non-binary in your dataset and leave the codes for their gender as appropriate for the individuals in your study. Non-gendered t-scores will be generated for all individuals. To generate gendered t-scores for binary gendered participants be sure to code gender as 1 = boy and 2 = girl | Non-gendered t-scores <br> no requirement <br><br> Gendered t-scores <br>1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will not receive a gendered t-score.  |
+    | gender | The child's gender. <br><br> - Any and all gender values may be used to generate t-scores. <br> - To generate gender-normed t-scores, gender must be a binary (1 = boy & 2 = girl)<br> - There are no requirements to generate non-gendered t-scores | Non-gendered t-scores: any value <br><br> Gendered t-scores: 1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will not receive a gendered t-score.  |
     | p_respondent | Whether the survey was filled out by the parent or the child | 1 = Parent / Caregiver Respondent, 0 = Child / Youth Self-Respondent |
     | swan1 | 1\. Give close attention to detail and avoid careless mistakes | -3 (Far Below) to 3 (Far Above) |
     | swan2 | 2\. Sustain attention on tasks and play activities | -3 (Far Below) to 3 (Far Above) |
