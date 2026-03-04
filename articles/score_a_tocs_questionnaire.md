@@ -12,12 +12,16 @@ function.
 
 ``` r
 library(sfsScorer)
-#> sfsScorer has been loaded
+#> sfsScorer Copyright (C) 2026 Jonathan Clutton / The Hospital for Sick Children
+#> This program comes with ABSOLUTELY NO WARRANTY
+#> This is free software, and you are welcome to redistribute it under certain
+#> conditions
+#> See conditions: <https://jclutton.github.io/sfsScorer/LICENSE.html>
 
 #' Here's how we expect the data to be formatted
 #' age (5-18)
 #' gender 
-#'  for non-gendered t-scores (Any scores are acceptable)
+#'  for non-gendered t-scores (Any gender values are acceptable)
 #'  for gendered t-scores (1 = boy, 2 = girl)
 #' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)
 #' All tocs questions 1-24 as tocs1...tocs24

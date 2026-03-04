@@ -74,12 +74,16 @@ shows you how to score your TOCS-2 tests.</p>
 <code><a href="../reference/score_tocs2.html">score_tocs2()</a></code> function.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jclutton/sfsScorer" class="external-link">sfsScorer</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; sfsScorer has been loaded</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">sfsScorer</span> Copyright (C) 2026 Jonathan Clutton / The Hospital for Sick Children</span></span>
+<span><span class="co">#&gt; This program comes with ABSOLUTELY NO WARRANTY</span></span>
+<span><span class="co">#&gt; This is free software, and you are welcome to redistribute it under certain</span></span>
+<span><span class="co">#&gt; conditions</span></span>
+<span><span class="co">#&gt; See conditions: <span style="color: #0000BB; font-style: italic;">&lt;https://jclutton.github.io/sfsScorer/LICENSE.html&gt;</span></span></span>
 <span></span>
 <span><span class="co">#' Here's how we expect the data to be formatted</span></span>
 <span><span class="co">#' age (5-18)</span></span>
 <span><span class="co">#' gender </span></span>
-<span><span class="co">#'  for non-gendered t-scores (Any scores are acceptable)</span></span>
+<span><span class="co">#'  for non-gendered t-scores (Any gender values are acceptable)</span></span>
 <span><span class="co">#'  for gendered t-scores (1 = boy, 2 = girl)</span></span>
 <span><span class="co">#' p_respondent (1 = parent / caregiver responded, 0 = child / youth respondent)</span></span>
 <span><span class="co">#' All tocs questions 1-24 as tocs1...tocs24</span></span>
@@ -178,15 +182,13 @@ age</td>
 </tr>
 <tr class="even">
 <td>gender</td>
-<td>The child’s gender. Please feel free to include children who are
-trans or non-binary in your dataset and leave the codes for their gender
-as appropriate for the individuals in your study. Non-gendered t-scores
-will be generated for all individuals. To generate gendered t-scores for
-binary gendered participants be sure to code gender as 1 = boy and 2 =
-girl</td>
-<td>Non-gendered t-scores <br> no requirement <br><br> Gendered t-scores
-<br>1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will
-not receive a gendered t-score.</td>
+<td>The child’s gender. <br><br> - Any and all gender values may be used
+to generate t-scores. <br> - To generate gender-normed t-scores, gender
+must be a binary (1 = Boy, 2 = Girl)<br> - There are no requirements to
+generate non-gendered t-scores</td>
+<td>Non-gendered t-scores: any value <br><br> Gendered t-scores: 1 =
+Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will not
+receive a gendered t-score.</td>
 </tr>
 <tr class="odd">
 <td>p_respondent</td>

@@ -14,7 +14,11 @@ function.
 
 ``` r
 library(sfsScorer)
-#> sfsScorer has been loaded
+#> sfsScorer Copyright (C) 2026 Jonathan Clutton / The Hospital for Sick Children
+#> This program comes with ABSOLUTELY NO WARRANTY
+#> This is free software, and you are welcome to redistribute it under certain
+#> conditions
+#> See conditions: <https://jclutton.github.io/sfsScorer/LICENSE.html>
 
 #' Here's how we expect the data to be formatted
 #' age (5-18)
