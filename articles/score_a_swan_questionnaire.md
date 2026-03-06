@@ -14,7 +14,7 @@ function.
 
 ``` r
 library(sfsScorer)
-#> sfsScorer Copyright (C) 2026 Jonathan Clutton / The Hospital for Sick Children
+#> sfsScorer Copyright (C) 2026 Jonathan Clutton
 #> This program comes with ABSOLUTELY NO WARRANTY
 #> This is free software, and you are welcome to redistribute it under certain
 #> conditions
