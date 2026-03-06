@@ -93,7 +93,7 @@ Our first step is to prepare your raw TOCS-2 data.
     | Column Name | Additional Information | Example |
     |-------------------|-----------------------------------|------------------|
     | age | The child's age | 5 - 18 <br><br> Note: Age in a numeric form, i.e. with decimals, will provide a more accurate t-score compared to an integer-based age |
-    | gender | The child's gender. <br><br> - Any and all gender values may be used to generate t-scores. <br> - To generate gender-normed t-scores, gender must be a binary (1 = Boy, 2 = Girl)<br> - There are no requirements to generate non-gendered t-scores | Non-gendered t-scores: any value <br><br> Gendered t-scores: 1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will not receive a gendered t-score. |
+    | gender | The child's gender. <br><br> - A full range of gender options can be included with the questionnaire. <br> - If you want to generate non-gendered norms, any gender identities can be included and coded in any way (e.g., boy, girl, transgender, non-binary, etc).<br> - If you want to generate gendered norms, gender must be binary and coded as 1 = boy and 2 = girl | Non-gendered t-scores: any value <br><br> Gendered t-scores: 1 = Boy, 2 = Girl <br><br> Note: Any gender not coded as 1 or 2 will not receive a gendered t-score.  |
     | p_respondent | Whether the survey was filled out by the parent or the child | 1 = Parent / Caregiver Respondent, 0 = Child / Youth Self-Respondent |
     | tocs1 | TOCS-2 Question #1 | -3 (Far Below) to 3 (Far Above) |
     | tocs2 | TOCS-2 Question #2 | -3 (Far Below) to 3 (Far Above) |
