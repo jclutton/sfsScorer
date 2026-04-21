@@ -55,12 +55,12 @@ library(sfsScorer)
 head(random_data, 1)
 
 # Score from a data frame
-scores <- score_swan(df = random_data)
+scores <- score_swan(df = random_data, reverse_scored = F)
 
 # OR
 # Score from a a csv or xlsx file
 csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
-scores_csv <- score_swan(file = csv)
+scores_csv <- score_swan(file = csv, reverse_scored = F)
 
 # Data are validated by default
  df_mod <- random_data |> 
@@ -68,7 +68,7 @@ scores_csv <- score_swan(file = csv)
  try(scores_csv <- score_swan(df = df_mod))
  
  # To ignore validation and introduce NAs use `ignore_check = TRUE`
- scores_csv <- score_swan(df = df_mod, ignore_check = TRUE)
+ scores_csv <- score_swan(df = df_mod, ignore_check = TRUE, reverse_scored = F)
 
 ```
 
