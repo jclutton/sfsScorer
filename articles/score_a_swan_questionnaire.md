@@ -34,13 +34,13 @@ head(random_data, 1)
 #> 1      2      0     -2      2     -1     -1      2      0     -2
 
 # Score from a data frame
-scores <- score_swan(df = random_data)
+scores <- score_swan(df = random_data, reverse_scored = F)
 #> ✔ The model scored 5 observations.
 
 # OR
 # Score from a a csv or xlsx file
 csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
-scores_csv <- score_swan(file = csv)
+scores_csv <- score_swan(file = csv, reverse_scored = F)
 #> ✔ The model scored 5 observations.
 
 # Data are validated by default
@@ -50,12 +50,12 @@ scores_csv <- score_swan(file = csv)
 #> There are 5 impossible values in the file.
 #> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA.
 #> 
-#> Error in clean_file(df, test = "swan", ignore_check = ignore_check) : 
+#> Error in clean_file(df, test = "swan", ignore_check = ignore_check, age_var = age_var,  : 
 #>   Please correct or remove these rows - "Row 1: swan1 - 6", "Row 2: swan1
 #> - 6", "Row 3: swan1 - 6", "Row 4: swan1 - 6", and "Row 5: swan1 - 6"
  
  # To ignore validation and introduce NAs use `ignore_check = TRUE`
- scores_csv <- score_swan(df = df_mod, ignore_check = TRUE)
+ scores_csv <- score_swan(df = df_mod, ignore_check = TRUE, reverse_scored = F)
 #> ! 5 impossible values were changed to NA. This could impact scores. 
 #> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA. To correct, review the following rows before running - "Row 1: swan1 - 6", "Row 2: swan1 - 6", "Row 3: swan1 - 6", "Row 4: swan1 - 6", and "Row 5: swan1 - 6"
 #> ✔ The model scored 5 observations.

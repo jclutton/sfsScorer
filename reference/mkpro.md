@@ -1,18 +1,12 @@
 # Make Prorated Scores
 
-a: first item number in questionnaire (usually "1")
+maxmiss: minimum number of missing values that sets total and prorated
+total to missing
 
 ## Usage
 
 ``` r
-mkpro(
-  maxmiss = NA,
-  dat = NA,
-  a = NULL,
-  b = NULL,
-  root = "swan",
-  newroot = "swan"
-)
+mkpro(maxmiss = NA, dat = NA, required_test_cols = NULL, newroot = "swan")
 ```
 
 ## Arguments
@@ -26,17 +20,10 @@ mkpro(
   should be a data.frame from
   [`clean_file()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/clean_file.md)
 
-- a:
+- required_test_cols:
 
-  First question of subset
-
-- b:
-
-  Last question of subset
-
-- root:
-
-  Root name of
+  An array of variable names that accounts for all of the questions in
+  the questionnaire
 
 - newroot:
 
@@ -45,6 +32,11 @@ mkpro(
 ## Value
 
 A data frame ready for use or an error
+
+## Development
+
+2026-04-21: Changed Annie's original code to match the changes to the
+rest of the code. Allows for dynamic variable naming now.
 
 ## Author
 

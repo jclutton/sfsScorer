@@ -50,7 +50,7 @@ scores_csv <- score_tocs2(file = tocs_csv)
 #> There are 5 impossible values in the file.
 #> The only valid values are -3, -2, -1, 0, 1, 2, 3, and NA.
 #> 
-#> Error in clean_file(df, test = "tocs", ignore_check = ignore_check) : 
+#> Error in clean_file(df, test = "tocs", ignore_check = ignore_check, age_var = age_var,  : 
 #>   Please correct or remove these rows - "Row 1: tocs1 - 6", "Row 2: tocs1
 #> - 6", "Row 3: tocs1 - 6", "Row 4: tocs1 - 6", and "Row 5: tocs1 - 6"
  

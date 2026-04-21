@@ -13,6 +13,10 @@ score_tocs2(
   df = NULL,
   file = FALSE,
   output_folder = NULL,
+  age_var = "age",
+  gender_var = "gender",
+  respondent_var = "p_respondent",
+  tocs2_vars = paste0("tocs", seq(1, 24)),
   max_missing = 0,
   ignore_check = FALSE
 )
@@ -39,6 +43,22 @@ score_tocs2(
   Optional, output file pathway. Defauts to `NULL`. Specify a pathway to
   output a csv file.
 
+- age_var:
+
+  Name of the age variable in your data
+
+- gender_var:
+
+  Name of the gender variable in your data
+
+- respondent_var:
+
+  Name of the respondent variable in your data
+
+- tocs2_vars:
+
+  Column names of the 24 TOCS questions
+
 - max_missing:
 
   By default, 0 items are allowed to be missing on the TOCS. Any
@@ -57,7 +77,14 @@ score_tocs2(
 
 ## Value
 
-table with t-scores attached to raw swan values
+A dataframe where...  
+
+- T-scores and total scores columns are added
+
+- SWAN questions are reversed scored so that higher numbers match
+  increased symptoms.
+
+- Otherwise all columns are not modified
 
 ## Examples
 
@@ -81,6 +108,6 @@ df_mod <- df |>
   dplyr::mutate(p_respondent = 2)
 scores_csv <- score_tocs2(df = df_mod, ignore_check = TRUE)
 #> ! 5 non-valid p_respondent values were changed to NA. This could impact scores. 
-#> The only valid p_respondent values are 1 and 0. To correct, review the following rows before re-running - 1, 2, 3, 4, and 5
+#> The only valid p_respondent  value are 1 and 0. To correct, review the following rows before re-running - 1, 2, 3, 4, and 5
 #> ✔ The model scored 0 observations.
 ```

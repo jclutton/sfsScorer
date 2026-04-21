@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sfsScorer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,17 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="cn">NULL</span>, file <span class="op">=</span> <span class="cn">FALSE</span>, output_folder <span class="op">=</span> <span class="cn">NULL</span>, ignore_check <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">score_swan</span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  age_var <span class="op">=</span> <span class="st">"age"</span>,</span>
+<span>  gender_var <span class="op">=</span> <span class="st">"gender"</span>,</span>
+<span>  respondent_var <span class="op">=</span> <span class="st">"p_respondent"</span>,</span>
+<span>  swan_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"swan"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">18</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  reverse_scored <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ignore_check <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  output_folder <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -53,7 +63,7 @@
 
 
 <dl><dt id="arg-df">df<a class="anchor" aria-label="anchor" href="#arg-df"></a></dt>
-<dd><p>If you already have the SWAN data in your R environment, pass the dataframe to this parameter</p></dd>
+<dd><p>Dataframe with SWAN data</p></dd>
 
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
@@ -62,48 +72,75 @@
 </ol></dd>
 
 
-<dt id="arg-output-folder">output_folder<a class="anchor" aria-label="anchor" href="#arg-output-folder"></a></dt>
-<dd><p>Optional, output file pathway. Defauts to <code>NULL</code>. Specify a pathway to output a csv file.</p></dd>
+<dt id="arg-age-var">age_var<a class="anchor" aria-label="anchor" href="#arg-age-var"></a></dt>
+<dd><p>Name of the age variable in your data</p></dd>
+
+
+<dt id="arg-gender-var">gender_var<a class="anchor" aria-label="anchor" href="#arg-gender-var"></a></dt>
+<dd><p>Name of the gender variable in your data</p></dd>
+
+
+<dt id="arg-respondent-var">respondent_var<a class="anchor" aria-label="anchor" href="#arg-respondent-var"></a></dt>
+<dd><p>Name of the respondent variable in your data</p></dd>
+
+
+<dt id="arg-swan-vars">swan_vars<a class="anchor" aria-label="anchor" href="#arg-swan-vars"></a></dt>
+<dd><p>Column names of the 18 SWAN questions</p></dd>
+
+
+<dt id="arg-reverse-scored">reverse_scored<a class="anchor" aria-label="anchor" href="#arg-reverse-scored"></a></dt>
+<dd><p>Different versions of the SWAN exist. To properly score values, we need SWAN questions 1 to 18 to be reverse scored where <strong>Far Below</strong> is equivalent to <strong>3</strong> so that high numbers pair with high symptoms.</p><ul><li><p><code>TRUE</code> - Far Below is equivalent to 3</p></li>
+<li><p><code>FALSE</code> - Far Below is equivalent to -3</p></li>
+<li><p><code>NULL</code> - An interactive workflow will ask you questions about your data</p></li>
+</ul></dd>
 
 
 <dt id="arg-ignore-check">ignore_check<a class="anchor" aria-label="anchor" href="#arg-ignore-check"></a></dt>
 <dd><p>Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
 in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to <code>TRUE</code>. NAs will be returned where data are invalid</p></dd>
 
+
+<dt id="arg-output-folder">output_folder<a class="anchor" aria-label="anchor" href="#arg-output-folder"></a></dt>
+<dd><p>Optional, output file pathway. Defauts to <code>NULL</code>. Specify a pathway to output a csv file.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>table with t-scores attached to raw swan values</p>
-    </div>
+    <p>A dataframe where... <br></p><ul><li><p>T-scores and total scores columns are added</p></li>
+<li><p>SWAN questions are reversed scored so that higher numbers match increased symptoms.</p></li>
+<li><p>Otherwise all columns are not modified</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Read in the file of scores</span></span></span>
-<span class="r-in"><span><span class="co"># This is an example file</span></span></span>
 <span class="r-in"><span><span class="va">csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample_swan.csv"</span>, package <span class="op">=</span> <span class="st">"sfsScorer"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Score via the file parameter</span></span></span>
-<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>file <span class="op">=</span> <span class="va">csv</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>file <span class="op">=</span> <span class="va">csv</span>, reverse_scored <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Score via the df paramter</span></span></span>
+<span class="r-in"><span><span class="co"># Already working with a dataframe? Score via the df paramter</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">rio</span><span class="fu">::</span><span class="fu"><a href="http://gesistsa.github.io/rio/reference/import.html" class="external-link">import</a></span><span class="op">(</span><span class="va">csv</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Name your variables</span></span></span>
+<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span>, age_var <span class="op">=</span> <span class="st">'age'</span>,</span></span>
+<span class="r-in"><span>gender_var <span class="op">=</span> <span class="st">'gender'</span>, respondent_var <span class="op">=</span> <span class="st">'p_respondent'</span>, reverse_scored <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Data will be validated</span></span></span>
 <span class="r-in"><span><span class="va">df_mod</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>swan1 <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_mod</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_mod</span>, reverse_scored <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are 5 impossible values in the file.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The only valid values are <span style="color: #0000BB;">-3</span>, <span style="color: #0000BB;">-2</span>, <span style="color: #0000BB;">-1</span>, <span style="color: #0000BB;">0</span>, <span style="color: #0000BB;">1</span>, <span style="color: #0000BB;">2</span>, <span style="color: #0000BB;">3</span>, and <span style="color: #0000BB;">NA</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in clean_file(df, test = "swan", ignore_check = ignore_check) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in clean_file(df, test = "swan", ignore_check = ignore_check, age_var = age_var,  : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Please correct or remove these rows - <span style="color: #0000BB;">"Row 1: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 2: swan1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">- 6"</span>, <span style="color: #0000BB;">"Row 3: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 4: swan1 - 6"</span>, and <span style="color: #0000BB;">"Row 5: swan1 - 6"</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`</span></span></span>
-<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_mod</span>, ignore_check <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_swan</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_mod</span>, ignore_check <span class="op">=</span> <span class="cn">TRUE</span>, reverse_scored <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> 5 impossible values were changed to <span style="font-style: italic;">NA</span>. This could impact scores. </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The only valid values are <span style="color: #0000BB;">-3</span>, <span style="color: #0000BB;">-2</span>, <span style="color: #0000BB;">-1</span>, <span style="color: #0000BB;">0</span>, <span style="color: #0000BB;">1</span>, <span style="color: #0000BB;">2</span>, <span style="color: #0000BB;">3</span>, and <span style="color: #0000BB;">NA</span>. To correct, review the following rows before running - <span style="color: #0000BB;">"Row 1: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 2: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 3: swan1 - 6"</span>, <span style="color: #0000BB;">"Row 4: swan1 - 6"</span>, and <span style="color: #0000BB;">"Row 5: swan1 - 6"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span>

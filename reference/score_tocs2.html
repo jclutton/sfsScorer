@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sfsScorer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,10 @@
 <span>  df <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  file <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  output_folder <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  age_var <span class="op">=</span> <span class="st">"age"</span>,</span>
+<span>  gender_var <span class="op">=</span> <span class="st">"gender"</span>,</span>
+<span>  respondent_var <span class="op">=</span> <span class="st">"p_respondent"</span>,</span>
+<span>  tocs2_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tocs"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">24</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  max_missing <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  ignore_check <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -72,6 +76,22 @@
 <dd><p>Optional, output file pathway. Defauts to <code>NULL</code>. Specify a pathway to output a csv file.</p></dd>
 
 
+<dt id="arg-age-var">age_var<a class="anchor" aria-label="anchor" href="#arg-age-var"></a></dt>
+<dd><p>Name of the age variable in your data</p></dd>
+
+
+<dt id="arg-gender-var">gender_var<a class="anchor" aria-label="anchor" href="#arg-gender-var"></a></dt>
+<dd><p>Name of the gender variable in your data</p></dd>
+
+
+<dt id="arg-respondent-var">respondent_var<a class="anchor" aria-label="anchor" href="#arg-respondent-var"></a></dt>
+<dd><p>Name of the respondent variable in your data</p></dd>
+
+
+<dt id="arg-tocs-vars">tocs2_vars<a class="anchor" aria-label="anchor" href="#arg-tocs-vars"></a></dt>
+<dd><p>Column names of the 24 TOCS questions</p></dd>
+
+
 <dt id="arg-max-missing">max_missing<a class="anchor" aria-label="anchor" href="#arg-max-missing"></a></dt>
 <dd><p>By default, 0 items are allowed to be missing on the TOCS. Any questionnaire with 1 or more missing, will not be scored. If you'd like to adjust this number, change the max_missing value.
 This will use a prorated score to generate t-scores. Please be aware that missingness can induce issues when analyzing.</p></dd>
@@ -84,12 +104,15 @@ in real data sets where data vary for good reasons. To skip the validation proce
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>table with t-scores attached to raw swan values</p>
-    </div>
+    <p>A dataframe where... <br></p><ul><li><p>T-scores and total scores columns are added</p></li>
+<li><p>SWAN questions are reversed scored so that higher numbers match increased symptoms.</p></li>
+<li><p>Otherwise all columns are not modified</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Read in the file of scores</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Read in the file of scores</span></span></span>
 <span class="r-in"><span><span class="co"># This is an example file</span></span></span>
 <span class="r-in"><span><span class="va">csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"sample_tocs.csv"</span>, package <span class="op">=</span> <span class="st">"sfsScorer"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -108,7 +131,7 @@ in real data sets where data vary for good reasons. To skip the validation proce
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>p_respondent <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">scores_csv</span> <span class="op">&lt;-</span> <span class="fu">score_tocs2</span><span class="op">(</span>df <span class="op">=</span> <span class="va">df_mod</span>, ignore_check <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> 5 non-valid <span style="color: #00BB00;">p_respondent</span> values were changed to <span style="font-style: italic;">NA</span>. This could impact scores. </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The only valid <span style="color: #00BB00;">p_respondent</span> values are <span style="color: #0000BB;">1</span> and <span style="color: #0000BB;">0</span>. To correct, review the following rows before re-running - <span style="color: #0000BB;">1</span>, <span style="color: #0000BB;">2</span>, <span style="color: #0000BB;">3</span>, <span style="color: #0000BB;">4</span>, and <span style="color: #0000BB;">5</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The only valid <span style="color: #00BB00;">p_respondent</span>  value are <span style="color: #0000BB;">1</span> and <span style="color: #0000BB;">0</span>. To correct, review the following rows before re-running - <span style="color: #0000BB;">1</span>, <span style="color: #0000BB;">2</span>, <span style="color: #0000BB;">3</span>, <span style="color: #0000BB;">4</span>, and <span style="color: #0000BB;">5</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The model scored 0 observations.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
