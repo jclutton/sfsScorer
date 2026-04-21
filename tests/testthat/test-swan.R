@@ -10,7 +10,7 @@ test_that("score_swan works", {
     select(all_of(required_cols)) |>
     mutate(across(all_of(required_test_cols),
                   ~.x*-1)) |>
-    score_swan() |>
+    score_swan(reverse_scored = F) |>
     select(-contains('_reversed')) |>
     select(contains('_pro'), contains('_tot'), contains('_miss'), contains('tscore'))
 

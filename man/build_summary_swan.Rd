@@ -4,15 +4,37 @@
 \alias{build_summary_swan}
 \title{Build Totals and Prorated Totals for Full Test and Subdomains}
 \usage{
-build_summary_swan(df = NULL)
+build_summary_swan(
+  df = NULL,
+  age_var = "age",
+  gender_var = "gender",
+  respondent_var = "p_respondent",
+  required_test_cols = NULL,
+  reverse_scored = NULL
+)
 }
 \arguments{
-\item{df}{should be a data.frame from \code{\link[=clean_file]{clean_file()}}}
+\item{df}{should be a data.frame from \code{\link{clean_file}}}
+
+\item{age_var}{Name of the age variable in your data}
+
+\item{gender_var}{Name of the gender variable in your data}
+
+\item{respondent_var}{Name of the respondent variable in your data}
+
+\item{required_test_cols}{An array of the names of the questionnaires questions, i.e. swan1, swan2, etc}
+
+\item{reverse_scored}{Different versions of the SWAN exist. To properly score values, we need SWAN questions 1 to 18 to be reverse scored where \strong{Far Below} is equivalent to \strong{3} so that high numbers pair with high symptoms.
+\itemize{
+\item \code{TRUE} - Far Below is equivalent to 3
+\item \code{FALSE} - Far Below is equivalent to -3
+\item \code{NULL} - An interactive workflow will ask you questions about your data
+}}
 }
 \value{
 A data frame with all of the totals columns
 }
 \description{
-Use the dataframe from \code{\link[=clean_file]{clean_file()}} and the \code{\link[=mkpro]{mkpro()}} function to reverse scores, then
+Use the dataframe from \code{\link{clean_file}} and the \code{\link{mkpro}} function to reverse scores, then
 calculate totals, missingness, and pro-rated totals for the total test and subdomains
 }

@@ -4,25 +4,14 @@
 \alias{mkpro}
 \title{Make Prorated Scores}
 \usage{
-mkpro(
-  maxmiss = NA,
-  dat = NA,
-  a = NULL,
-  b = NULL,
-  root = "swan",
-  newroot = "swan"
-)
+mkpro(maxmiss = NA, dat = NA, required_test_cols = NULL, newroot = "swan")
 }
 \arguments{
 \item{maxmiss}{maximum number of missing values before can be considered invalid}
 
 \item{dat}{should be a data.frame from \code{\link[=clean_file]{clean_file()}}}
 
-\item{a}{First question of subset}
-
-\item{b}{Last question of subset}
-
-\item{root}{Root name of}
+\item{required_test_cols}{An array of variable names that accounts for all of the questions in the questionnaire}
 
 \item{newroot}{a new name if root names need to be changed}
 }
@@ -30,8 +19,13 @@ mkpro(
 A data frame ready for use or an error
 }
 \description{
-a: first item number in questionnaire (usually "1")
+maxmiss: minimum number of missing values that sets total and prorated total to missing
 }
+\section{Development}{
+
+2026-04-21: Changed Annie's original code to match the changes to the rest of the code. Allows for dynamic variable naming now.
+}
+
 \author{
 Annie
 }

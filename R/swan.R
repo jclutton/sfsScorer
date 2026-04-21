@@ -23,7 +23,11 @@
 #'
 #' `r lifecycle::badge('experimental')`
 #'
-#' @param df If you already have the SWAN data in your R environment, pass the dataframe to this parameter
+#' @param df Dataframe with SWAN data
+#' @param age_var Name of the age variable in your data
+#' @param gender_var Name of the gender variable in your data
+#' @param respondent_var Name of the respondent variable in your data
+#' @param swan_vars Column names of the 18 SWAN questions
 #' @param file If you prefer scoring a spreadsheet...
 #' \enumerate{
 #'  \item Change to `TRUE` to pop-up a finder to allow you select a file. Alternatively, leave df and file empty to pop-up a finder.
@@ -32,6 +36,14 @@
 #' @param output_folder Optional, output file pathway. Defauts to `NULL`. Specify a pathway to output a csv file.
 #' @param ignore_check Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
 #' in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to `TRUE`. NAs will be returned where data are invalid
+#' @param reverse_scored
+#' Different versions of the SWAN exist. To properly score values, we need SWAN questions 1 to 18 to be reverse scored where \strong{Far Below} is equivalent to \strong{3} so that high numbers pair with high symptoms.
+#'\itemize{
+#'  \item `TRUE` - Far Below is equivalent to 3
+#'  \item `FALSE` - Far Below is equivalent to -3
+#'  \item `NULL` - An interactive workflow will ask you questions about your data
+#'  }
+#'
 #'
 #' @importFrom rio export
 #' @importFrom lubridate now
@@ -41,36 +53,48 @@
 #' @importFrom stats sd
 #' @importFrom here here
 #' @importFrom rlang .data
-#' @importFrom cli cli_alert_success
+#' @importFrom utils menu
+#' @import cli
 #'
-#' @returns table with t-scores attached to raw swan values
+#' @returns
+#' A dataframe where... \cr
+#' \itemize{
+#'   \item T-scores and total scores columns are added
+#'   \item SWAN questions are reversed scored so that higher numbers match increased symptoms.
+#'   \item Otherwise all columns are not modified
+#' }
+#'
 #'
 #' @examples
 #' # Read in the file of scores
-#' # This is an example file
 #' csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 #'
 #' # Score via the file parameter
-#' scores_csv <- score_swan(file = csv)
+#' scores_csv <- score_swan(file = csv, reverse_scored = FALSE)
 #'
-#' # Score via the df paramter
+#' # Already working with a dataframe? Score via the df paramter
 #' df <- rio::import(csv)
-#' scores_csv <- score_swan(df = df)
+#' # Name your variables
+#' scores_csv <- score_swan(df = df, age_var = 'age',
+#' gender_var = 'gender', respondent_var = 'p_respondent', reverse_scored = FALSE)
 #'
 #' # Data will be validated
 #' df_mod <- df |>
 #'   dplyr::mutate(swan1 = 6)
-#' try(scores_csv <- score_swan(df = df_mod))
+#'
+#' try(scores_csv <- score_swan(df = df_mod, reverse_scored = FALSE))
 #'
 #' # To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
-#' scores_csv <- score_swan(df = df_mod, ignore_check = TRUE)
+#' scores_csv <- score_swan(df = df_mod, ignore_check = TRUE, reverse_scored = FALSE)
 #'
 #'
 #' @export
 #'
 #'
 
-score_swan <- function(df = NULL, file = FALSE, output_folder = NULL, ignore_check = FALSE) {
+score_swan <- function(df = NULL, file = FALSE,
+                       age_var = 'age', gender_var = 'gender', respondent_var = 'p_respondent', swan_vars = paste0('swan',seq(1,18)),
+                       reverse_scored = NULL, ignore_check = FALSE, output_folder = NULL) {
 
   if(is.null(df) | is.character(df) | is.logical(df)){
 
@@ -90,12 +114,43 @@ score_swan <- function(df = NULL, file = FALSE, output_folder = NULL, ignore_che
     }
   }
 
-
   # Run QC checks on data
-  check <- clean_file(df, test = 'swan', ignore_check = ignore_check)
+  check <- clean_file(df, test = 'swan', ignore_check = ignore_check,
+                      age_var = age_var, gender_var = gender_var, respondent_var = respondent_var, required_test_cols = swan_vars)
+
+  # Figure out if questions need to be reverse scored
+  if(is.null(reverse_scored)){
+
+    cli::cli_h2("Reverse Scoring")
+    cli::cli_text("We need information on how your SWAN questionnaire was designed to properly score it.")
+    cli::cli_par()
+    #cli::cli_text("Think about how the questions {.val #1} to {.val #18} were scored in your questionnaire.")
+    cli::cli_text("Is the answer choice {.field Far Below} equivalent to {.field -3} in your raw data?")
+    cli::cli_end()
+    reversed1 <- menu(choices = c("Yes","No"))
+
+    if(reversed1 == 1){
+      cli::cli_text("Great! So to confirm {.field Far Above} was equivalent to {.field 3}, right?\f")
+    } else if(reversed1 == 2){
+      cli::cli_text("Okay. So if I understand correctly, {.field Far Below} is equivalent to {.field 3} in your raw data?\f")
+    }
+    cli::cli_alert_info("Want to skip this step? Use the {.envvar reverse_scored} parameter next time you run the {.fn score_swan} function.")
+    reversed2 <- utils::menu(choices = c("Yes","No"))
+
+    if(reversed1 == 1 & reversed2 == 1){
+      reverse_scored <- F
+      cli::cli_alert_info("{.field {swan_vars[1]}} to {.field {swan_vars[18]}} have been reversed, i.e. multiplied by -1, so that higher numbers match increased symptoms.")
+    } else if (reversed1 == 2 & reversed2 == 1){
+      reverse_scored <- T
+    } else if (reversed2 !=1){
+      cli::cli_abort("You selected an option that isn't possible. Please re-run {.fn score_swan}")
+    }
+  }
 
   # Summarize Scores
-  summary <- build_summary_swan(check)
+  summary <- build_summary_swan(check,
+                                age_var = age_var, gender_var = gender_var, respondent_var = respondent_var, required_test_cols = swan_vars,
+                                reverse_scored = reverse_scored)
 
   # Run the model
   score <- run_model_swan(summary)
@@ -137,46 +192,54 @@ score_swan <- function(df = NULL, file = FALSE, output_folder = NULL, ignore_che
 #'
 #' @title Build Totals and Prorated Totals for Full Test and Subdomains
 #'
-#' @description Use the dataframe from [clean_file()] and the [mkpro()] function to reverse scores, then
+#' @description Use the dataframe from \code{\link{clean_file}} and the \code{\link{mkpro}} function to reverse scores, then
 #' calculate totals, missingness, and pro-rated totals for the total test and subdomains
 #'
 #' @import dplyr
 #'
 #' @importFrom rlang .data
 #'
-#' @param df should be a data.frame from [clean_file()]
+#' @param df should be a data.frame from \code{\link{clean_file}}
+#' @inheritParams score_swan
+#' @inheritParams clean_file
 #'
 #' @returns A data frame with all of the totals columns
 #'
-build_summary_swan <- function(df = NULL) {
+build_summary_swan <- function(df = NULL,
+                               age_var = 'age', gender_var = 'gender', respondent_var = 'p_respondent', required_test_cols = NULL,
+                               reverse_scored = NULL) {
 
-  ia_subdomain <- mkvars(1,9, 'swan')
-  hi_subdomain <- mkvars(10, 18, 'swan')
+  ia_subdomain <- required_test_cols[1:9]
+  hi_subdomain <- required_test_cols[10:18]
 
   df_tot <- df |>
-    dplyr::mutate(age18 = dplyr::case_when(.data$age < 18 ~ age,
-                                           .data$age >= 18 ~ 18,
-                                           T ~ .data$age)) |>
+    dplyr::mutate(age18 = dplyr::case_when(.data[[age_var]] < 18 ~ .data[[age_var]],
+                                           .data[[age_var]] >= 18 ~ 18,
+                                           T ~ .data[[age_var]])) |>
     # Use same codings as Annie's script
-    dplyr::mutate(female = dplyr::case_when(as.character(.data$gender) == "1" ~ 0,
-                                            as.character(.data$gender) == "2" ~ 1,
+    dplyr::mutate(female = dplyr::case_when(as.character(.data[[gender_var]]) == "1" ~ 0,
+                                            as.character(.data[[gender_var]]) == "2" ~ 1,
                                             T ~ NA)) |>
-    dplyr::mutate(youth = dplyr::case_when(.data$age < 12 ~ 0,
-                                           .data$age >= 12 ~ 1,
-                                           T ~ NA)) |>
+    dplyr::mutate(youth = dplyr::case_when(.data[[age_var]] < 12 ~ 0,
+                                           .data[[age_var]] >= 12 ~ 1,
+                                           T ~ NA))
 
-    # Reverse scores
-    dplyr::mutate(dplyr::across(dplyr::all_of(c(ia_subdomain, hi_subdomain)),
-                                ~-1*.x))
+  if(reverse_scored == F){
+    df_tot <- df_tot |>
+      # Reverse scores
+      dplyr::mutate(dplyr::across(dplyr::all_of(c(ia_subdomain, hi_subdomain)),
+                                  ~-1*.x))
+  }
+
 
   #Inattentive
-  df_tot <- cbind(df_tot, mkpro(dat = df_tot, a = 1, b = 9, newroot = 'swan_ia', maxmiss = 1))
+  df_tot <- cbind(df_tot, mkpro(dat = df_tot, required_test_cols = ia_subdomain, newroot = 'swan_ia', maxmiss = 1))
 
   #Hyperactive
-  df_tot <- cbind(df_tot, mkpro(dat = df_tot, a = 10, b = 18, newroot = 'swan_hi', maxmiss = 1))
+  df_tot <- cbind(df_tot, mkpro(dat = df_tot, required_test_cols = hi_subdomain, newroot = 'swan_hi', maxmiss = 1))
 
   #Whole test scores
-  df_tot <- cbind(df_tot, mkpro(dat = df_tot, a = 1, b = 18)) |>
+  df_tot <- cbind(df_tot, mkpro(dat = df_tot, required_test_cols = c(ia_subdomain, hi_subdomain))) |>
     # If a subdomain is missing more than one, mark as NA
     dplyr::mutate(dplyr::across(c('swan_tot','swan_pro'),
                                 ~ dplyr::case_when(.data$swan_ia_miss > 1 | .data$swan_hi_miss > 1 ~ NA,
@@ -208,8 +271,6 @@ build_summary_swan <- function(df = NULL) {
 #'
 run_model_swan <- function(df = NULL) {
 
-  ia_subdomain <- mkvars(1,9, 'swan')
-  hi_subdomain <- mkvars(10, 18, 'swan')
 
   #### Produce t-scores with gender
   df_mod <- df |>
@@ -348,15 +409,7 @@ run_model_swan <- function(df = NULL) {
 
   #### Remove extra columns ####
   df_final <- df_mod |>
-    dplyr::select(-dplyr::contains("pred"), -dplyr::contains("low"), -dplyr::contains("adj")) |>
-    # Reverse scores back to initial input
-    dplyr::mutate(dplyr::across(dplyr::all_of(c(ia_subdomain, hi_subdomain)),
-                                ~-1*.x)) |>
-    # Print columns with reversed scores
-    dplyr::mutate(dplyr::across(dplyr::all_of(c(ia_subdomain, hi_subdomain)),
-                                ~-1*.x,
-                                .names = "{col}_reversed"))
-
+    dplyr::select(-dplyr::contains("pred"), -dplyr::contains("low"), -dplyr::contains("adj"))
 
 
   return(df = df_final)

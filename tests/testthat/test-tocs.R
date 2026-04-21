@@ -27,7 +27,7 @@ test_that("TOCS summary function works", {
                         tocs23 = c(2),
                         tocs24 = c(0))
 
-  expect_equal(build_summary_tocs(sample_data, max_missing = 0), sample_data |> bind_cols(age18 = c(18),
+  expect_equal(build_summary_tocs(sample_data, max_missing = 0, required_test_cols = paste0('tocs',seq(1,24))), sample_data |> bind_cols(age18 = c(18),
                                                                                        female = c(1),
                                                                                        youth = c(1),
                                                                                        tocs_tot = c(10),
@@ -63,7 +63,7 @@ test_that("TOCS model function works", {
                             tocs22 = c(-3),
                             tocs23 = c(2),
                             tocs24 = c(0)) |>
-    build_summary_tocs(max_missing = 0)
+    build_summary_tocs(max_missing = 0, required_test_cols = paste0('tocs',seq(1,24)))
 
   expect_equal(run_model_tocs(sample_data), sample_data |> bind_cols(tocs_gender_tscores = c(50.67452),
                                                                      tocs_tscores = c(52.10126)))

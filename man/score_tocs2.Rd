@@ -8,6 +8,10 @@ score_tocs2(
   df = NULL,
   file = FALSE,
   output_folder = NULL,
+  age_var = "age",
+  gender_var = "gender",
+  respondent_var = "p_respondent",
+  tocs2_vars = paste0("tocs", seq(1, 24)),
   max_missing = 0,
   ignore_check = FALSE
 )
@@ -23,6 +27,14 @@ score_tocs2(
 
 \item{output_folder}{Optional, output file pathway. Defauts to \code{NULL}. Specify a pathway to output a csv file.}
 
+\item{age_var}{Name of the age variable in your data}
+
+\item{gender_var}{Name of the gender variable in your data}
+
+\item{respondent_var}{Name of the respondent variable in your data}
+
+\item{tocs2_vars}{Column names of the 24 TOCS questions}
+
 \item{max_missing}{By default, 0 items are allowed to be missing on the TOCS. Any questionnaire with 1 or more missing, will not be scored. If you'd like to adjust this number, change the max_missing value.
 This will use a prorated score to generate t-scores. Please be aware that missingness can induce issues when analyzing.}
 
@@ -30,7 +42,12 @@ This will use a prorated score to generate t-scores. Please be aware that missin
 in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to \code{TRUE}. NAs will be returned where data are invalid}
 }
 \value{
-table with t-scores attached to raw swan values
+A dataframe where... \cr
+\itemize{
+\item T-scores and total scores columns are added
+\item SWAN questions are reversed scored so that higher numbers match increased symptoms.
+\item Otherwise all columns are not modified
+}
 }
 \description{
 score_tocs2() returns gendered and non-gendered t-scores for the \href{https://pubmed.ncbi.nlm.nih.gov/27015722/}{Toronto Obsessive-Compulsive Scale (TOCS) assessment}
@@ -38,6 +55,7 @@ score_tocs2() returns gendered and non-gendered t-scores for the \href{https://p
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
+
 # Read in the file of scores
 # This is an example file
 csv <- system.file("extdata", "sample_tocs.csv", package = "sfsScorer")

@@ -24,6 +24,10 @@
 #' `r lifecycle::badge('experimental')`
 #'
 #' @param df If you already have the TOCS-2 data in your R environment, pass the dataframe to this parameter
+#' @param age_var Name of the age variable in your data
+#' @param gender_var Name of the gender variable in your data
+#' @param respondent_var Name of the respondent variable in your data
+#' @param tocs2_vars Column names of the 24 TOCS questions
 #' @param file If you prefer scoring a spreadsheet...
 #' \enumerate{
 #'  \item Change to `TRUE` to pop-up a finder to allow you select a file. Alternatively, leave df and file empty to pop-up a finder.
@@ -44,9 +48,17 @@
 #' @importFrom here here
 #' @importFrom cli cli_alert_success
 #'
-#' @returns table with t-scores attached to raw swan values
+#' @returns
+#' A dataframe where... \cr
+#' \itemize{
+#'   \item T-scores and total scores columns are added
+#'   \item SWAN questions are reversed scored so that higher numbers match increased symptoms.
+#'   \item Otherwise all columns are not modified
+#' }
+#'
 #'
 #' @examples
+#'
 #' # Read in the file of scores
 #' # This is an example file
 #' csv <- system.file("extdata", "sample_tocs.csv", package = "sfsScorer")
@@ -69,7 +81,8 @@
 #'
 
 score_tocs2 <- function(df = NULL, file = FALSE, output_folder = NULL,
-                             max_missing = 0, ignore_check = FALSE) {
+                        age_var = 'age', gender_var = 'gender', respondent_var = 'p_respondent', tocs2_vars = paste0('tocs',seq(1,24)),
+                        max_missing = 0, ignore_check = FALSE) {
 
   if(is.null(df) | is.character(df) | is.logical(df)){
 
@@ -91,10 +104,12 @@ score_tocs2 <- function(df = NULL, file = FALSE, output_folder = NULL,
 
 
   # Run QC checks on data
-  check <- clean_file(df, test = 'tocs', ignore_check = ignore_check)
+  check <- clean_file(df, test = 'tocs', ignore_check = ignore_check,
+                      age_var = age_var, gender_var = gender_var, respondent_var = respondent_var, required_test_cols = tocs2_vars)
 
   # Summarize Scores
-  summary <- build_summary_tocs(check, max_missing = max_missing)
+  summary <- build_summary_tocs(check, max_missing = max_missing,
+                                age_var = age_var, gender_var = gender_var, respondent_var = respondent_var, required_test_cols = tocs2_vars)
 
   # Run the model
   score <- run_model_tocs(summary)
@@ -148,26 +163,29 @@ score_tocs2 <- function(df = NULL, file = FALSE, output_folder = NULL,
 #'
 #' @param df should be a data.frame from [clean_file()]
 #' @param max_missing max_missing is passed from the [score_tocs2()] function. By default, the tocs allows 0 missing items.
+#' @inheritParams score_tocs2
+#' @inheritParams clean_file
 #'
 #' @returns A data frame with all of the totals columns
 #'
-build_summary_tocs <- function(df = NULL, max_missing = NULL) {
+build_summary_tocs <- function(df = NULL, max_missing = NULL,
+                               age_var = 'age', gender_var = 'gender', respondent_var = 'p_respondent', required_test_cols = NULL) {
 
 
   df_tot <- df |>
-    dplyr::mutate(age18 = dplyr::case_when(.data$age < 18 ~ age,
-                                           .data$age >= 18 ~ 18,
-                                           T ~ .data$age)) |>
+    dplyr::mutate(age18 = dplyr::case_when(.data[[age_var]] < 18 ~ .data[[age_var]],
+                                           .data[[age_var]] >= 18 ~ 18,
+                                           T ~ .data[[age_var]])) |>
     # Use same codings as Annie's script
-    dplyr::mutate(female = dplyr::case_when(as.character(.data$gender) == "1" ~ 0,
-                                            as.character(.data$gender) == "2" ~ 1,
+    dplyr::mutate(female = dplyr::case_when(as.character(.data[[gender_var]]) == "1" ~ 0,
+                                            as.character(.data[[gender_var]]) == "2" ~ 1,
                                             T ~ NA)) |>
-    dplyr::mutate(youth = dplyr::case_when(.data$age < 12 ~ 0,
-                                           .data$age >= 12 ~ 1,
+    dplyr::mutate(youth = dplyr::case_when(.data[[age_var]] < 12 ~ 0,
+                                           .data[[age_var]] >= 12 ~ 1,
                                            T ~ NA))
 
   #Whole test scores
-  df_tot <- cbind(df_tot, mkpro(dat = df_tot, a = 1, b = 24, maxmiss = max_missing, root = 'tocs', newroot = 'tocs'))
+  df_tot <- cbind(df_tot, mkpro(dat = df_tot, required_test_cols = required_test_cols, maxmiss = max_missing, newroot = 'tocs'))
 
 
 

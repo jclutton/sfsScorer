@@ -50,6 +50,8 @@ globalVariables(c())
 #' @param test Which questionnaire are we running
 #' @param ignore_check Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
 #' in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to TRUE. NAs will be returned where data are invalid
+#' @param required_test_cols An array of the names of the questionnaires questions, i.e. swan1, swan2, etc
+#' @inheritParams score_swan
 #'
 #' @importFrom rio import
 #' @importFrom rio get_ext
@@ -67,7 +69,8 @@ globalVariables(c())
 #'
 #'
 #'
-clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
+clean_file <- function(df = NULL, test = NULL, ignore_check = NULL,
+                       age_var = 'age', gender_var = 'gender', respondent_var = 'p_respondent', required_test_cols = NULL) {
 
   # Create temporary df and add row number for alerts
   df_temp <- df |>
@@ -76,17 +79,24 @@ clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
   # Check for Required Questions
   if(test == 'swan'){
 
-    required_test_cols <- c('swan1','swan2','swan3','swan4','swan5','swan6','swan7','swan8','swan9',
-                            'swan10','swan11','swan12','swan13','swan14','swan15','swan16','swan17','swan18')
+    if(length(required_test_cols) != 18){
+
+      cli::cli_abort(paste('Please check that all of the SWAN questions are in your dataframe. There should be 18 total questions, usually numbered swan1, swan2, etc.'))
+    }
+
     # swan only allows values -3 to 3
     value_range <- c(seq(-3, 3, 1), NA)
   } else if(test == 'tocs'){
-    required_test_cols <- paste0('tocs',seq(1,24,1))
+
+    if(length(required_test_cols) != 24){
+
+      cli::cli_abort(paste('Please check that all of the TOCS-2 questions are in your dataframe. There should be 24 total questions, usually numbered tocs1, tocs2, etc.'))
+    }
 
     value_range <- c(seq(-3, 3, 1), NA)
   }
 
-  required_dem_cols <- c('age','gender','p_respondent')
+  required_dem_cols <- c(age_var, gender_var, respondent_var)
 
   if(!all(c(required_test_cols,required_dem_cols) %in% colnames(df))){
 
@@ -130,16 +140,17 @@ clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
   }
 
   # P_respondent
-  if(any(!df$p_respondent %in% c(0,1))) {
+  if(any(!(df[[respondent_var]] %in% c(0,1)))) {
 
     vals <- c(1,0)
+
     rows <- df_temp |>
-      filter(!.data$p_respondent %in% c(0,1))
+      filter(! {{ respondent_var }} %in% c(0,1))
 
     if(!ignore_check){
 
       cli::cli_par()
-      cli::cli_text("There {?is/are} {sum(!df$p_respondent %in% c(0,1))} non-valid value{?s} in the p_respondent column.")
+      cli::cli_text("There is/are {sum(!df[[respondent_var]] %in% c(0,1))} non-valid value(s) in the {.field {respondent_var}} column.")
       cli::cli_text("The only valid values are {.val {vals}}.")
       cli::cli_end()
       cli::cli_abort("Please correct or remove these rows - {.val {rows$row}}")
@@ -150,24 +161,24 @@ clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
         mutate(across(all_of(c('p_respondent')),
                       ~case_when(.x %in% vals ~ .x,
                                  T ~ NA)))
-      cli::cli_alert_warning(paste("{sum(!df$p_respondent %in% c(0,1))} non-valid {.field p_respondent} values were changed to {.emph NA}. This could impact scores. \n",
-                                   "The only valid {.field p_respondent} value{?s} are {.val {vals}}. To correct, review the following rows before re-running - {.val {rows$row}}"))
+      cli::cli_alert_warning(paste("{sum(!df[[respondent_var]] %in% c(0,1))} non-valid {.field {respondent_var}} values were changed to {.emph NA}. This could impact scores. \n",
+                                   "The only valid {.field {respondent_var}}  value{?s} are {.val {vals}}. To correct, review the following rows before re-running - {.val {rows$row}}"))
     }
 
   }
 
   # Check age class
-  if(!class(df$age) %in% c('numeric','integer')){
+  if(!class(df[[age_var]]) %in% c('numeric','integer')){
 
     suppressWarnings(rows <- df_temp |>
-      mutate(parse_age = as.numeric(.data$age)) |>
+      mutate(parse_age = as.numeric({{age_var}})) |>
       filter(is.na(.data$parse_age)))
 
     if(!ignore_check){
 
       cli::cli_par()
-      cli::cli_text("There {?is/are} {sum(is.na(rows$parse_age))} non-numeric value{?s} in the {.field age} column.")
-      cli::cli_text("{.field age} must be a number between {.val {c(5,19)}}.")
+      cli::cli_text("There is/are {sum(is.na(rows$parse_age))} non-numeric value(s) in the {.field {age_var}} column.")
+      cli::cli_text("{.field {age_var}} must be a number between {.val {c(5,19)}}.")
       cli::cli_end()
       cli::cli_abort("Please correct or remove these rows - {.val {rows$row}}")
 
@@ -176,18 +187,18 @@ clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
       suppressWarnings(df <- df |>
         mutate(age = as.numeric(.data$age)))
 
-      cli::cli_alert_warning(paste("{sum(is.na(rows$parse_age))} non-valid {.field age} value{?s} {?was/were} changed to {.emph NA}. This could impact scores. \n",
-                                   "{.field age} must be a number between {.val {c(5,19)}}. To correct, review the following rows before re-running - {.val {rows$row}}"))
+      cli::cli_alert_warning(paste("{sum(is.na(rows$parse_age))} non-valid {.field {age_var}} value(s) was/were changed to {.emph NA}. This could impact scores. \n",
+                                   "{.field {age_var}} must be a number between {.val {c(5,19)}}. To correct, review the following rows before re-running - {.val {rows$row}}"))
     }
 
 
     }
 
   # Check that Age is formatted correctly
-  if(any(df$age >= 19, na.rm = T) | any(df$age < 5, na.rm = T)){
+  if(any(df[[age_var]] >= 19, na.rm = T) | any(df[[age_var]]< 5, na.rm = T)){
 
     rows <- df_temp |>
-      filter(.data$age >= 19 | .data$age < 5)
+      filter({{age_var}} >= 19 | {{age_var}} < 5)
 
     if(!ignore_check){
 
@@ -200,18 +211,18 @@ clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
     } else if(ignore_check){
 
       df <- df |>
-        mutate(across(all_of(c('age')),
+        mutate(across(all_of(age_var),
                       ~case_when(.x >= 19 | .x < 5 ~ NA,
                                  T ~ age)))
 
-      cli::cli_alert_warning(paste("{nrow(rows)} non-valid {.field age} value{?s} {?was/were} changed to {.emph NA}. This could impact scores. \n",
-                                   "{.field age} must be a number between {.val {c(5,19)}}. To correct, review the following rows before re-running - {.val {rows$row}}"))
+      cli::cli_alert_warning(paste("{nrow(rows)} non-valid {.field {age_var}} value(s) were changed to {.emph NA}. This could impact scores. \n",
+                                   "{.field {age_var}} must be a number between {.val {c(5,19)}}. To correct, review the following rows before re-running - {.val {rows$row}}"))
     }
 
   }
 
   # Check gender
-  if(!any(as.character(unique(df$gender)) %in% c('1','2'))){
+  if(!any(as.character(unique(df[[gender_var]])) %in% c('1','2'))){
     warning(paste("The package wasn't able to find any gender coded as 1 or 2, and therefore won't generate any gender-based t-scores. If you'd like to generate gender-based t-scores, gender should be coded as... \n",
                   "1 = Boy \n",
                   "2 = Girl \n"))
@@ -223,60 +234,32 @@ clean_file <- function(df = NULL, test = NULL, ignore_check = NULL) {
 
 
 
-
-#' @name mkvars
-#'
-#' @title Make Variables - Subset SWAN to subdomains.
-#'
-#' @author Annie
-#'
-#' @description Pass the root of the test with the question numbers to subset the SWAN. 1-9 = Inattentive. 10-18 = Hyperactive.
-#' Function to list all questionnaire items (and not have to type them out) - used throughout
-#' a:  first item number (usually "1", but when referencing subdomains, or for SWAN ODD, first item may be something other than 1
-#' b:  last item number
-#' root:  part of the item name that doesn't change (eg:  for swan1 to swan18, the root is "swan" )
-#'
-#' @importFrom stringr str_c
-#'
-#' @param a First question of subset
-#' @param b Last question of subset
-#' @param root Root name of
-#'
-#' @returns A data frame ready for use or an error
-mkvars <- function(a = NULL, b = NULL, root = 'swan') {
-  cnams <- NULL
-  for (i in a:b) {
-    cnams[i - a + 1] <- stringr::str_c(root, i)
-  }
-  return(cnams)
-}
-
 #' @name mkpro
 #'
 #' @title Make Prorated Scores
 #'
 #' @author Annie
 #'
-#' @description
-#' a: first item number in questionnaire (usually "1")
-# b: last item number in questionnaire
-# root: non numeric part of the item name (see calls to the function below)
-# maxmiss: minimum number of missing values that sets total and prorated total to missing
+#' @description maxmiss: minimum number of missing values that sets total and prorated total to missing
 #          WARNING: default does not set any totals or pro-rated totals to missing to leave this up to the individual analyst
 # dat: name of data frame with items - default is S2quest
 # newroot: root for new variable names if different (used for subdomain totals) - default if newroot is not specified in call to function, newroot = root
 #'
+#' @section Development:
+#' 2026-04-21: Changed Annie's original code to match the changes to the rest of the code. Allows for dynamic variable naming now.
+#'
+#'
 #' @param dat should be a data.frame from [clean_file()]
 #' @param maxmiss maximum number of missing values before can be considered invalid
-#' @inheritParams mkvars
 #' @param newroot a new name if root names need to be changed
+#' @param required_test_cols An array of variable names that accounts for all of the questions in the questionnaire
 #'
 #' @returns A data frame ready for use or an error
 #'
-mkpro <- function(maxmiss = NA, dat = NA, a = NULL, b = NULL, root = 'swan', newroot = 'swan' ) {
+mkpro <- function(maxmiss = NA, dat = NA, required_test_cols = NULL, newroot = 'swan' ) {
 
 
-  cnams <- mkvars(a, b, root)
+  cnams <- required_test_cols
   n <- length(cnams)
 
   tot <- apply(dat[, cnams], 1 , sum, na.rm = T)

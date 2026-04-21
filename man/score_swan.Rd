@@ -4,10 +4,20 @@
 \alias{score_swan}
 \title{Run analysis on SWAN raw values to return t-scores}
 \usage{
-score_swan(df = NULL, file = FALSE, output_folder = NULL, ignore_check = FALSE)
+score_swan(
+  df = NULL,
+  file = FALSE,
+  age_var = "age",
+  gender_var = "gender",
+  respondent_var = "p_respondent",
+  swan_vars = paste0("swan", seq(1, 18)),
+  reverse_scored = NULL,
+  ignore_check = FALSE,
+  output_folder = NULL
+)
 }
 \arguments{
-\item{df}{If you already have the SWAN data in your R environment, pass the dataframe to this parameter}
+\item{df}{Dataframe with SWAN data}
 
 \item{file}{If you prefer scoring a spreadsheet...
 \enumerate{
@@ -15,13 +25,33 @@ score_swan(df = NULL, file = FALSE, output_folder = NULL, ignore_check = FALSE)
 \item Or specify a pathway
 }}
 
-\item{output_folder}{Optional, output file pathway. Defauts to \code{NULL}. Specify a pathway to output a csv file.}
+\item{age_var}{Name of the age variable in your data}
+
+\item{gender_var}{Name of the gender variable in your data}
+
+\item{respondent_var}{Name of the respondent variable in your data}
+
+\item{swan_vars}{Column names of the 18 SWAN questions}
+
+\item{reverse_scored}{Different versions of the SWAN exist. To properly score values, we need SWAN questions 1 to 18 to be reverse scored where \strong{Far Below} is equivalent to \strong{3} so that high numbers pair with high symptoms.
+\itemize{
+\item \code{TRUE} - Far Below is equivalent to 3
+\item \code{FALSE} - Far Below is equivalent to -3
+\item \code{NULL} - An interactive workflow will ask you questions about your data
+}}
 
 \item{ignore_check}{Data are validated to look for missing or improperly formatted values before scoring. Errors are thrown when data aren't valid; however, this can cause issues
 in real data sets where data vary for good reasons. To skip the validation process, set ignore_check to \code{TRUE}. NAs will be returned where data are invalid}
+
+\item{output_folder}{Optional, output file pathway. Defauts to \code{NULL}. Specify a pathway to output a csv file.}
 }
 \value{
-table with t-scores attached to raw swan values
+A dataframe where... \cr
+\itemize{
+\item T-scores and total scores columns are added
+\item SWAN questions are reversed scored so that higher numbers match increased symptoms.
+\item Otherwise all columns are not modified
+}
 }
 \description{
 score_swan() returns gendered and non-gendered t-scores for the Strengths and Weaknesses of ADHD Symptoms and Normal Behavior Rating Scale (SWAN) assessment
@@ -30,23 +60,25 @@ score_swan() returns gendered and non-gendered t-scores for the Strengths and We
 }
 \examples{
 # Read in the file of scores
-# This is an example file
 csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 
 # Score via the file parameter
-scores_csv <- score_swan(file = csv)
+scores_csv <- score_swan(file = csv, reverse_scored = FALSE)
 
-# Score via the df paramter
+# Already working with a dataframe? Score via the df paramter
 df <- rio::import(csv)
-scores_csv <- score_swan(df = df)
+# Name your variables
+scores_csv <- score_swan(df = df, age_var = 'age',
+gender_var = 'gender', respondent_var = 'p_respondent', reverse_scored = FALSE)
 
 # Data will be validated
 df_mod <- df |>
   dplyr::mutate(swan1 = 6)
-try(scores_csv <- score_swan(df = df_mod))
+
+try(scores_csv <- score_swan(df = df_mod, reverse_scored = FALSE))
 
 # To ignore the validation errors and introduce `NA`, set `ignore_check = TRUE`
-scores_csv <- score_swan(df = df_mod, ignore_check = TRUE)
+scores_csv <- score_swan(df = df_mod, ignore_check = TRUE, reverse_scored = FALSE)
 
 
 }
