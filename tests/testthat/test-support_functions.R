@@ -5,6 +5,26 @@ test_that("clean_file finds missing columns", {
   expect_error(clean_file(df, test = 'swan'))
 })
 
+
+
+test_that("errors when fewer than 24 TOCS-2 columns are provided", {
+  # Create a minimal valid-looking dataset
+  df <- data.frame(
+    age = 10,
+    gender = 1,
+    p_respondent = 1
+  )
+
+  # Add only 23 TOCS columns instead of 24
+  for (i in 1:23) {
+    df[[paste0("tocs", i)]] <- 0
+  }
+
+  expect_error(
+    clean_file(df = df, test = 'tocs', required_test_cols = colnames(df))
+  )
+})
+
 #### Check File - ignore_check = F ####
 test_that("clean_file finds impossible values", {
   file <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
@@ -114,3 +134,5 @@ test_that("mkpro works properly", {
                        swan_pro = c(1, 9 + 1/3, 0, NA))
   expect_equal(check, expect)
 })
+
+
