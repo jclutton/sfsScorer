@@ -96,7 +96,9 @@ shows you how to score your TOCS-2 tests.</p>
 <span><span class="co">#&gt; 1      1     -2      3     -3</span></span>
 <span></span>
 <span><span class="co"># Score from a data frame</span></span>
-<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_tocs2.html">score_tocs2</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">random_data</span><span class="op">)</span></span>
+<span><span class="co">#   If you have variables named differently pass the names in as parameters</span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_tocs2.html">score_tocs2</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">random_data</span>, </span>
+<span>                      age_var <span class="op">=</span> <span class="st">'age'</span>, gender_var <span class="op">=</span> <span class="st">"gender"</span>, respondent_var <span class="op">=</span> <span class="st">"p_respondent"</span>, tocs2_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tocs"</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">24</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span></span>
 <span></span>
 <span><span class="co"># OR</span></span>
@@ -148,8 +150,29 @@ trans or non-binary individuals.</li>
 <h2 id="instructions">Instructions<a class="anchor" aria-label="anchor" href="#instructions"></a>
 </h2>
 <div class="section level3">
-<h3 id="formatting-your-data">Formatting Your Data<a class="anchor" aria-label="anchor" href="#formatting-your-data"></a>
+<h3 id="score-from-a-dataframe">Score from a Dataframe<a class="anchor" aria-label="anchor" href="#score-from-a-dataframe"></a>
 </h3>
+<p>If the data already exist within a dataframe in your environment, use
+<code><a href="../reference/score_tocs2.html">score_tocs2()</a></code> to score the dataframe. The scored columns
+will be added to your dataframe.</p>
+<ul>
+<li><p>Use the _var parameters to dynamically refer to your
+columns.</p></li>
+<li><p>Use the ignore_check paramater if you want to skipping the data
+validation errors and induce NAs instead</p></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_tocs2.html">score_tocs2</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">random_data</span>, ignore_check <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>                     age_var <span class="op">=</span> <span class="st">'age'</span>, gender_var <span class="op">=</span> <span class="st">"gender"</span>, respondent_var <span class="op">=</span> <span class="st">"p_respondent"</span>, tocs2_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"tocs"</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">24</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> The model scored 5 observations.</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="score-from-a-spreadsheet">Score from a Spreadsheet<a class="anchor" aria-label="anchor" href="#score-from-a-spreadsheet"></a>
+</h3>
+<div class="section level4">
+<h4 id="formatting-your-data">Formatting Your Data<a class="anchor" aria-label="anchor" href="#formatting-your-data"></a>
+</h4>
 <p>Our first step is to prepare your raw TOCS-2 data.</p>
 <ol style="list-style-type: decimal">
 <li><p>Prepare a spreadsheet, preferably a .csv file, with a row for
@@ -324,38 +347,39 @@ Self-Respondent</td>
 </li>
 </ol>
 </div>
-<div class="section level3">
-<h3 id="generate-scores">Generate Scores<a class="anchor" aria-label="anchor" href="#generate-scores"></a>
-</h3>
+<div class="section level4">
+<h4 id="generate-scores">Generate Scores<a class="anchor" aria-label="anchor" href="#generate-scores"></a>
+</h4>
 <p>Use the code below to generate your t-scores. First, you will be
 prompted to select your file. Second, we will check that your data are
 formatted properly. Third, t-scores will be generated.</p>
 <p>If you receive an error, please correct the issue in your file, save
 your file, then run the <code><a href="../reference/score_tocs2.html">score_tocs2()</a></code> function again.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jclutton/sfsScorer" class="external-link">sfsScorer</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># The score_tocs2 function checks that your data are formatted correctly and generates the t-scores</span></span>
 <span><span class="va">tocs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_tocs2.html">score_tocs2</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="additional-options">Additional options<a class="anchor" aria-label="anchor" href="#additional-options"></a>
-</h3>
+<div class="section level4">
+<h4 id="additional-options">Additional options<a class="anchor" aria-label="anchor" href="#additional-options"></a>
+</h4>
 <p>You have the option to…</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Score from a data.frame in case the data do not exist in a csv file</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">df =</span> tocs)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Specify the input file</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"test_scores.csv"</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># Export results to an output folder</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">output_folder =</span> <span class="fu">file.path</span>(<span class="st">"C:"</span>,<span class="st">"Users"</span>,...<span class="st">"yourpath"</span>))</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co"># Change the number of allowed missingness. </span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co"># Default missinness is 0 questions. You can use the max_missing variable to allow more missingness</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># Doing so will use a prorated score to generate a t-score. This can produce outliers and issues</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"test_scores.csv"</span>), <span class="at">max_missing =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># Score from a data.frame in case the data do not exist in a csv file</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">df =</span> tocs)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># Specify the input file</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"test_scores.csv"</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co"># Export results to an output folder</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">output_folder =</span> <span class="fu">file.path</span>(<span class="st">"C:"</span>,<span class="st">"Users"</span>,...<span class="st">"yourpath"</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co"># Change the number of allowed missingness. </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># Default missinness is 0 questions. You can use the max_missing variable to allow more missingness</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># Doing so will use a prorated score to generate a t-score. This can produce outliers and issues</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>tocs <span class="ot">&lt;-</span> <span class="fu">score_tocs2</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"test_scores.csv"</span>), <span class="at">max_missing =</span> <span class="dv">2</span>)</span></code></pre></div>
+</div>
 </div>
 </div>
 <div class="section level2">

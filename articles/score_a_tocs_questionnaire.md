@@ -34,7 +34,9 @@ head(random_data, 1)
 #> 1      1     -2      3     -3
 
 # Score from a data frame
-scores <- score_tocs2(df = random_data)
+#   If you have variables named differently pass the names in as parameters
+scores <- score_tocs2(df = random_data, 
+                      age_var = 'age', gender_var = "gender", respondent_var = "p_respondent", tocs2_vars = paste0("tocs",seq(1,24)))
 #> ✔ The model scored 5 observations.
 
 # OR
@@ -82,7 +84,28 @@ scores_csv <- score_tocs2(file = tocs_csv)
 
 ## Instructions
 
-### Formatting Your Data
+### Score from a Dataframe
+
+If the data already exist within a dataframe in your environment, use
+[`score_tocs2()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/score_tocs2.md)
+to score the dataframe. The scored columns will be added to your
+dataframe.
+
+- Use the \_var parameters to dynamically refer to your columns.
+
+- Use the ignore_check paramater if you want to skipping the data
+  validation errors and induce NAs instead
+
+``` r
+
+scores <- score_tocs2(df = random_data, ignore_check = T,
+                     age_var = 'age', gender_var = "gender", respondent_var = "p_respondent", tocs2_vars = paste0("tocs",seq(1,24)))
+#> ✔ The model scored 5 observations.
+```
+
+### Score from a Spreadsheet
+
+#### Formatting Your Data
 
 Our first step is to prepare your raw TOCS-2 data.
 
@@ -97,7 +120,7 @@ Our first step is to prepare your raw TOCS-2 data.
 
     [TABLE]
 
-### Generate Scores
+#### Generate Scores
 
 Use the code below to generate your t-scores. First, you will be
 prompted to select your file. Second, we will check that your data are
@@ -115,7 +138,7 @@ library(sfsScorer)
 tocs <- score_tocs2()
 ```
 
-### Additional options
+#### Additional options
 
 You have the option to…
 

@@ -34,7 +34,9 @@ head(random_data, 1)
 #> 1      2      0     -2      2     -1     -1      2      0     -2
 
 # Score from a data frame
-scores <- score_swan(df = random_data, reverse_scored = F)
+#   If you have variables named differently pass the names in as parameters
+scores <- score_swan(df = random_data, reverse_scored = F,
+                     age_var = 'age', gender_var = "gender", respondent_var = "p_respondent", swan_vars = paste0("swan",seq(1,18)))
 #> ✔ The model scored 5 observations.
 
 # OR
@@ -91,7 +93,33 @@ scores_csv <- score_swan(file = csv, reverse_scored = F)
 
 ## Instructions
 
-### Formatting Your Data
+### Score from a Dataframe
+
+If the data already exist within a dataframe in your environment, use
+[`score_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/score_swan.md)
+to score the dataframe. The scored columns will be added to your
+dataframe.
+
+- Use the \_var parameters to dynamically refer to your columns.
+
+- Use the reverse_scored parameter to note whether raw scores have been
+  reveresed or not. See
+  [`score_swan()`](https://Schachar-Crosbie-Lab.github.io/sfsScorer/reference/score_swan.md)
+  for more details.
+
+- Use the ignore_check paramater if you want to skipping the data
+  validation errors and induce NAs instead
+
+``` r
+
+scores <- score_swan(df = random_data, reverse_scored = F, ignore_check = T,
+                     age_var = 'age', gender_var = "gender", respondent_var = "p_respondent", swan_vars = paste0("swan",seq(1,18)))
+#> ✔ The model scored 5 observations.
+```
+
+### Score From a Spreadsheet
+
+#### Formatting Your Data
 
 Our first step is to prepare your raw SWAN data.
 
@@ -106,7 +134,7 @@ Our first step is to prepare your raw SWAN data.
 
     [TABLE]
 
-### Generate Scores
+#### Generate Scores
 
 Use the code below to generate your t-scores. First, you will be
 prompted to select your file. Second, we will check that your data are
@@ -125,7 +153,7 @@ library(sfsScorer)
 swan_tscores <- score_swan()
 ```
 
-### Additional options
+#### Additional options
 
 ``` r
 # Score from a data.frame in case the data do not exist in a csv file, i.e. a REDCap API
