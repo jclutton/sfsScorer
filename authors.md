@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jclutton/sfsScorer/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jclutton/sfsScorer/blob/0.2.0/DESCRIPTION)
 
 Clutton J (2026). *sfsScorer: Scores child psychometric questionnaires
 using norms from the Spit for Science study*. R package version 0.2.0,
