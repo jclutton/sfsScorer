@@ -93,7 +93,7 @@ A dataframe where...
 ## Examples
 
 ``` r
-# Read in the file of scores
+#' # Read in the file of scores
 csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 
 # Score via the file parameter
