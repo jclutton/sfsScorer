@@ -66,7 +66,7 @@
 #'
 #'
 #' @examples
-#' # Read in the file of scores
+#' #' # Read in the file of scores
 #' csv <- system.file("extdata", "sample_swan.csv", package = "sfsScorer")
 #'
 #' # Score via the file parameter
@@ -409,7 +409,10 @@ run_model_swan <- function(df = NULL) {
 
   #### Remove extra columns ####
   df_final <- df_mod |>
-    dplyr::select(-dplyr::contains("pred"), -dplyr::contains("low"), -dplyr::contains("adj"))
+    dplyr::select(-all_of(c('swan_gender_pred', 'swan_gender_low', 'swan_gender_sd_pred', 'res_adj', 'sd_adj',
+                     'swan_pred', 'swan_low', 'swan_sd_pred',
+                     'swan_ia_gender_pred', 'swan_ia_gender_low', 'swan_ia_gender_sd_pred', 'swan_ia_pred', 'swan_ia_low', 'swan_ia_sd_pred',
+                     'swan_hi_gender_pred', 'swan_hi_gender_low', 'swan_hi_gender_sd_pred', 'swan_hi_pred', 'swan_hi_low', 'swan_hi_sd_pred')))
 
 
   return(df = df_final)
